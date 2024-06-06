@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://4v4cgb0w1d44"]
+
+[ext_resource type="Texture2D" uid="uid://b7hn7slimwml7" path="res://Assets/Sprites/cursor.png" id="1_xh7d4"]
+[ext_resource type="Script" path="res://Scripts/Cursor.cs" id="2_0p40h"]
+[ext_resource type="PackedScene" uid="uid://bggvjpv7blfef" path="res://Scenes/whistle_point.tscn" id="3_1ckyu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ygkgq"]
+radius = 0.01
+
+[node name="Cursor" type="Sprite2D"]
+z_index = 1810
+position = Vector2(0, 1)
+texture = ExtResource("1_xh7d4")
+script = ExtResource("2_0p40h")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_ygkgq")
+
+[node name="WhistleCircle" type="Node2D" parent="."]
+
+[node name="WhistlePoint" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(0, -12)
+
+[node name="WhistlePoint2" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(8, -8)
+
+[node name="WhistlePoint3" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(12, 0)
+
+[node name="WhistlePoint4" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(8, 8)
+
+[node name="WhistlePoint5" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(0, 12)
+
+[node name="WhistlePoint6" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(-8, 8)
+
+[node name="WhistlePoint7" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(-12, 0)
+
+[node name="WhistlePoint8" parent="WhistleCircle" instance=ExtResource("3_1ckyu")]
+z_index = 50
+position = Vector2(-8, -8)

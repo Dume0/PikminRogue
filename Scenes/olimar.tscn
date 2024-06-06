@@ -1,0 +1,135 @@
+[gd_scene load_steps=20 format=3 uid="uid://d126cb12vrx8o"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_f3n6b"]
+[ext_resource type="Texture2D" uid="uid://btuoc5mcmtpye" path="res://Assets/Sprites/Olimar/olimar_idle.png" id="2_y3cgj"]
+[ext_resource type="Texture2D" uid="uid://ba0pwjtsim3us" path="res://Assets/Sprites/Olimar/olimar_walk.png" id="3_74wg2"]
+[ext_resource type="Texture2D" uid="uid://nogb8sqd5ba5" path="res://Assets/Sprites/Olimar/olimar_whistling.png" id="4_cbw0a"]
+[ext_resource type="Texture2D" uid="uid://bvesgfa3n75fe" path="res://Assets/Sprites/Olimar/olimar_whistling_walking.png" id="5_bxx32"]
+[ext_resource type="AudioStream" uid="uid://dyaoxad41tc4a" path="res://Assets/Sounds/Olimar/whistle.wav" id="6_obfhi"]
+[ext_resource type="AudioStream" uid="uid://c6ur3bensxk2i" path="res://Assets/Sounds/Olimar/grass1.wav" id="7_yufch"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r56fn"]
+atlas = ExtResource("2_y3cgj")
+region = Rect2(0, 0, 17, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i74q0"]
+atlas = ExtResource("2_y3cgj")
+region = Rect2(17, 0, 17, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3ep3"]
+atlas = ExtResource("3_74wg2")
+region = Rect2(0, 0, 17, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7nhd"]
+atlas = ExtResource("3_74wg2")
+region = Rect2(17, 0, 17, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4yu5"]
+atlas = ExtResource("4_cbw0a")
+region = Rect2(0, 0, 17, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ebrk1"]
+atlas = ExtResource("5_bxx32")
+region = Rect2(0, 0, 17, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbou7"]
+atlas = ExtResource("5_bxx32")
+region = Rect2(17, 0, 17, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lvy8g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r56fn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i74q0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3ep3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7nhd")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4yu5")
+}],
+"loop": true,
+"name": &"whistling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ebrk1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbou7")
+}],
+"loop": true,
+"name": &"whistling_walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f5ywc"]
+radius = 3.0
+
+[sub_resource type="Gradient" id="Gradient_v0xln"]
+colors = PackedColorArray(0, 0, 0, 0.392157, 0, 0, 0, 0.392157)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cttul"]
+gradient = SubResource("Gradient_v0xln")
+width = 14
+height = 3
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cka7x"]
+radius = 29.0
+
+[node name="Olimar" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_f3n6b")
+throwVelocity = Vector2(10, 10)
+throwAcceleration = Vector2(0, 9.8)
+healthMax = 20
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 5
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_lvy8g")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_f5ywc")
+
+[node name="Shadow" type="Sprite2D" parent="."]
+position = Vector2(0, 4)
+texture = SubResource("GradientTexture2D_cttul")
+
+[node name="WhistlingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_obfhi")
+
+[node name="WalkingSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_yufch")
+volume_db = -12.295
+autoplay = true
+
+[node name="GrabPikminArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GrabPikminArea2D"]
+shape = SubResource("CircleShape2D_cka7x")
+
+[node name="GrabPikminPoint" type="Node2D" parent="."]
+position = Vector2(-5, 1)
+
+[connection signal="finished" from="WalkingSound" to="." method="OnWalkingSoundFinished"]
