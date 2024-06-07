@@ -12,7 +12,6 @@ public enum E_PikminState
 public partial class Pikmin : Living
 {
 	#region Components
-	AnimatedSprite2D sprite;
 	Sprite2D shadowSprite;
 	CollisionShape2D collider;
 	NavigationAgent2D navigationAgent;
@@ -35,7 +34,6 @@ public partial class Pikmin : Living
 	{
 		base._Ready();
 
-		sprite = GetNode<AnimatedSprite2D>("Sprite2D");
 		shadowSprite = GetNode<Sprite2D>("ShadowSprite2D");
 		collider = GetNode<CollisionShape2D>("CollisionShape2D");
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");

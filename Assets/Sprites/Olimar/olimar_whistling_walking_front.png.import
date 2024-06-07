@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nogb8sqd5ba5"
-path="res://.godot/imported/olimar_whistling.png-fece05cf5c0808dc56a7166755e2881f.ctex"
+uid="uid://bvesgfa3n75fe"
+path="res://.godot/imported/olimar_whistling_walking_front.png-8fab03f17c7bf5f7ebc77951f26a29e8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Olimar/olimar_whistling.png"
-dest_files=["res://.godot/imported/olimar_whistling.png-fece05cf5c0808dc56a7166755e2881f.ctex"]
+source_file="res://Assets/Sprites/Olimar/olimar_whistling_walking_front.png"
+dest_files=["res://.godot/imported/olimar_whistling_walking_front.png-8fab03f17c7bf5f7ebc77951f26a29e8.ctex"]
 
 [params]
 

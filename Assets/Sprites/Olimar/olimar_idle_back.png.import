@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://btuoc5mcmtpye"
-path="res://.godot/imported/olimar_idle.png-dddf0e951a768b26f2ac07fc80781fdb.ctex"
+uid="uid://c1fwpj41afwjg"
+path="res://.godot/imported/olimar_idle_back.png-a4c93951a5b2ac3774a67ef3f4cc8aaf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Olimar/olimar_idle.png"
-dest_files=["res://.godot/imported/olimar_idle.png-dddf0e951a768b26f2ac07fc80781fdb.ctex"]
+source_file="res://Assets/Sprites/Olimar/olimar_idle_back.png"
+dest_files=["res://.godot/imported/olimar_idle_back.png-a4c93951a5b2ac3774a67ef3f4cc8aaf.ctex"]
 
 [params]
 

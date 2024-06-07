@@ -7,7 +7,6 @@ public partial class Player : Living
 	public static Player instance;
 
 	#region Components
-	private AnimatedSprite2D sprite;
 	private AudioStreamPlayer2D whistlingSound;
 	private AudioStreamPlayer2D walkingSound;
 	public RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
@@ -50,7 +49,6 @@ public partial class Player : Living
 		base._Ready();
 		if (instance == null) { instance = this; } // Singleton
 
-		sprite = GetNode<AnimatedSprite2D>("Sprite2D");
 		whistlingSound = GetNode<AudioStreamPlayer2D>("WhistlingSound");
 		walkingSound = GetNode<AudioStreamPlayer2D>("WalkingSound");
 		pikminFollowPoint = GetNode<RigidBody2D>("PikminFollowPoint");
@@ -87,6 +85,29 @@ public partial class Player : Living
 		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
 		Vector2 point = offsetCaptain;
 		Color[] colors = { Colors.Blue, Colors.Red };
+
+		float speed = 10;
+		Vector2 velocity;
+		float gravity = 0.5f;
+		float angle = Trajectory.GetAngleToReachTarget(offsetCursor, speed, gravity);
+		//GD.Print(angle);
+
+		velocity = Trajectory.GetVelocity(angle, speed);
+
+		point += velocity;
+
+		for (var i = 0; i < 200; i++)
+		{
+			DrawCircle(point, 1, colors[i % 2]);
+			velocity.Y += gravity;
+			point += velocity;
+		}
+
+
+		/*Vector2 offsetCaptain = Position - GlobalPosition;
+		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
+		Vector2 point = offsetCaptain;
+		Color[] colors = { Colors.Blue, Colors.Red };
 		float gravity = -throwAcceleration.Y;
 		List<Vector2> path;
 
@@ -97,7 +118,7 @@ public partial class Player : Living
 		for (int i = 0; i < path.Count; i++)
 		{
 			DrawCircle(path[i], 1, colors[i % 2]);
-		}
+		}*/
 		//Trajectory.CalculateTrajectory()
 
 		/*
@@ -180,6 +201,8 @@ public partial class Player : Living
 		else { isWalking = false; }
 
 		// Flip sprite
+		if (direction.Y < 0) { isFacingFront = false; }
+		else if (direction.Y > 0) { isFacingFront = true; }
 		if (direction.X < 0) { sprite.FlipH = false; }
 		else if (direction.X > 0) { sprite.FlipH = true; }
 
@@ -240,16 +263,18 @@ public partial class Player : Living
 		if (grabedPikmin != null)
 			return;
 
+		// Itere sur tous les elements à portée de grab
 		foreach (Node2D body in grabPikminArea.GetOverlappingBodies())
 		{
-			// Pikmin
-			if (body.IsInGroup("PikminsFollowingCaptain") && grabedPikmin == null)
+			// Verifie si l'élément est un Pikmin
+			if (body.IsInGroup("PikminsFollowingCaptain"))
 			{
 				Pikmin pikmin = (Pikmin)body;
 
 				pikmin.StopFollowPlayer();
 				pikmin.AddToGroup("PikminGrabed");
 
+				// Fait du capitaine le parent du Pikmin
 				pikmin.GetParent().RemoveChild(pikmin);
 				AddChild(pikmin);
 
@@ -257,10 +282,13 @@ public partial class Player : Living
 
 				isGrabing = true;
 				grabedPikmin = pikmin;
+
+				break;
 			}
 		}
 	}
 
+	// Utilisé lors de l'annulation d'un lancer
 	private void ReleasePikmin()
 	{
 		if (grabedPikmin == null)
@@ -298,13 +326,13 @@ public partial class Player : Living
 	private void AnimationManager()
 	{
 		if (isWhistling && !isWalking)
-			sprite.Play("whistling");
+			PlayAnimation("whistling");
 		else if (isWhistling && isWalking)
-			sprite.Play("whistling_walk");
+			PlayAnimation("whistling_walk_front");
 		else if (isWalking)
-			sprite.Play("walk");
+			PlayAnimation("walk");
 		else if (!isWalking)
-			sprite.Play("idle");
+			PlayAnimation("idle");
 	}
 
 	public void AddPikminToGroup(Pikmin pikmin)
@@ -316,5 +344,4 @@ public partial class Player : Living
 	{
 		canPlayWalkingSound = true;
 	}
-
 }
