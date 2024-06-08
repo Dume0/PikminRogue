@@ -4187,6 +4187,7 @@ bias = 0.5
 unique_name_in_owner = true
 z_index = -1
 pikminParent = NodePath("../Pikmins")
+throwGravity = 0.8
 
 [node name="Camera2D" type="Camera2D" parent="Olimar"]
 zoom = Vector2(2.5, 2.5)

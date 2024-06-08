@@ -37,11 +37,10 @@ public partial class Player : Living
 	private List<Pikmin> pikmins;
 
 	[ExportGroup("Throw")]
-	[Export] float throwLaunchMagnitude = 1f;
-	[Export] float throwLaunchAngle = 45f;
-	[Export] bool throwLobAngle = false;
-	[Export] Vector2 throwVelocity = Vector2.Right;
-	[Export] Vector2 throwAcceleration = Vector2.Down;
+	[Export] float throwSpeed = 10f;
+	[Export] bool throwLobAngle = true;
+	[Export] float throwGravity = 0.5f;
+	[Export] bool debugDrawTrajectory = false;
 
 
 	public override void _Ready()
@@ -74,115 +73,37 @@ public partial class Player : Living
 	{
 		base._Draw();
 
-		DrawTrajectory();
+		if (debugDrawTrajectory) DrawThrowTrajectory();
 		DrawLineCaptainCursor();
 	}
 
 
-	private void DrawTrajectory()
+	private void DrawThrowTrajectory()
 	{
 		Vector2 offsetCaptain = Position - GlobalPosition;
 		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
 		Vector3 point = new Vector3(offsetCaptain.X, 0, offsetCaptain.Y);
 		Color[] colors = { Colors.Blue, Colors.Red };
 
-
-		float speed = 10;
 		float distance = offsetCaptain.DistanceTo(offsetCursor);
 
 		Vector3 velocity;
-		float gravity = 0.5f;
-		float angleVertical = Trajectory.GetVerticalAngle(speed, gravity, distance, false);
+		float angleVertical = Trajectory.GetVerticalAngle(throwSpeed, throwGravity, distance, !throwLobAngle);
 		float angleHorizontal = Trajectory.GetAngleBetweenTwoPoints(offsetCaptain, offsetCursor);
-		GD.Print(angleHorizontal);
 
-
-		velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, speed);
+		velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, throwSpeed);
 		velocity.Y *= -1;
-		//GD.Print(velocity);
-		//GD.Print(angleVertical);
 
 		point += velocity;
 
 		for (var i = 0; i < 200; i++)
 		{
-			DrawCircle(new Vector2(point.X, point.Y + point.Z), 1, colors[i % 2]);
-			velocity.Y += gravity;
+			DrawCircle(new Vector2(point.X, point.Y + point.Z), point.Y / 10, colors[i % 2]);
+			velocity.Y += throwGravity;
 			point += velocity;
+			if (new Vector2(point.X, point.Z).DistanceTo(offsetCaptain) > distance)
+				break;
 		}
-
-
-		/*Vector2 offsetCaptain = Position - GlobalPosition;
-		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
-		Vector2 point = offsetCaptain;
-		Color[] colors = { Colors.Blue, Colors.Red };
-		float gravity = -throwAcceleration.Y;
-		List<Vector2> path;
-
-		throwVelocity.X = Mathf.Cos(Mathf.DegToRad(throwLaunchAngle)) * throwLaunchMagnitude;
-		throwVelocity.Y = Mathf.Sin(Mathf.DegToRad(throwLaunchAngle)) * throwLaunchMagnitude;
-
-		path = Trajectory.CalculateTrajectory(throwVelocity, throwAcceleration, 1);
-		for (int i = 0; i < path.Count; i++)
-		{
-			DrawCircle(path[i], 1, colors[i % 2]);
-		}*/
-		//Trajectory.CalculateTrajectory()
-
-		/*
-		float step = 1 / (2 * Mathf.Pi);
-		float y = 0;
-		float offset = 1;
-		float b = 1;
-
-		for (var i = 0; i < 40; i++)
-		{
-			DrawCircle(new Vector2(i, Mathf.Sin(y) * 10), 2, Colors.Violet);
-			GD.Print(y);
-			y += step;
-		}*/
-
-		/*
-		Vector2 offsetCaptain = Position - GlobalPosition;
-		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
-		Vector2 direction;
-		float throwForce = -70;
-		float gravity = 20;
-		float speed = 10;
-
-		Vector2 groundedPoint = Position;
-		Vector2 totalPoint;
-		float aerialY = 0;
-
-		Color[] colors = { Colors.Blue, Colors.Red };
-		float distance;
-
-		// Direction
-		Position.DirectionTo(Cursor.instance.Position - GlobalPosition);
-		distance = Position.DistanceTo(Cursor.instance.Position - GlobalPosition);
-		//throwForce = distance / 2;
-		speed = distance / 100;
-
-		//float velocity = -distance / 2;
-		float velocity = -distance / 2;
-		GD.Print("velocity " + velocity);
-		GD.Print("distance " + distance);
-
-		int i = 0;
-		float j = -throwForce - distance / 2;
-
-		while (groundedPoint.DistanceTo(offsetCaptain) < offsetCursor.DistanceTo(offsetCaptain))
-		{
-			groundedPoint = groundedPoint.MoveToward(Cursor.instance.Position - GlobalPosition, speed);
-			aerialY = aerialY + (velocity);
-			totalPoint = new Vector2(groundedPoint.X, groundedPoint.Y + aerialY);
-			//point.Y = Mathf.Sin(i) * 10;
-			DrawCircle(totalPoint, 2, colors[i % 2]);
-			//gravity++;
-			velocity += speed;
-			i++;
-		}
-		GD.Print("iteration " + i);*/
 	}
 
 	private void DrawLineCaptainCursor()
@@ -284,9 +205,9 @@ public partial class Player : Living
 
 				// Fait du capitaine le parent du Pikmin
 				pikmin.GetParent().RemoveChild(pikmin);
-				AddChild(pikmin);
+				grabPikminPoint.AddChild(pikmin);
 
-				pikmin.Position = grabPikminPoint.Position;
+				pikmin.GlobalPosition = grabPikminPoint.GlobalPosition;
 
 				isGrabing = true;
 				grabedPikmin = pikmin;
@@ -321,9 +242,18 @@ public partial class Player : Living
 		grabedPikmin.GetParent().RemoveChild(grabedPikmin);
 		pikminParent.AddChild(grabedPikmin);
 
+		grabedPikmin.GlobalPosition = GlobalPosition;
+
 		grabedPikmin.RemoveFromGroup("PikminGrabed");
 
-		grabedPikmin.ThrowAtPosition(GetGlobalMousePosition());
+		Vector2 offsetCaptain = Position - GlobalPosition;
+		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
+		float distance = offsetCaptain.DistanceTo(offsetCursor);
+		float angleVertical = Trajectory.GetVerticalAngle(throwSpeed, throwGravity, distance, !throwLobAngle);
+		float angleHorizontal = Trajectory.GetAngleBetweenTwoPoints(offsetCaptain, offsetCursor);
+		Vector3 velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, throwSpeed);
+		velocity.Y *= -1;
+		grabedPikmin.Throwed(velocity, throwGravity, distance);
 
 		isGrabing = false;
 		grabedPikmin = null;

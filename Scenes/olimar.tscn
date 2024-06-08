@@ -137,8 +137,6 @@ radius = 29.0
 [node name="Olimar" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_f3n6b")
-throwVelocity = Vector2(10, 10)
-throwAcceleration = Vector2(0, 9.8)
 healthMax = 20
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]

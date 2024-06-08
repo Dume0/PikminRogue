@@ -19,16 +19,20 @@ public partial class Pikmin : Living
 	GpuParticles2D dustParticles;
 	#endregion
 
-	private E_PikminState state;
+	private E_PikminState state; public E_PikminState State { get { return state; } private set { } }
 
 	[Export] public float movementSpeed = 100.0f;
 	[Export] public float throwForce = 100.0f;
 
-	private Vector2 throwedPosition = Vector2.Inf;
-	private Vector2 midwayThrowedPosition;
+	private float verticalPosition = 0;
 	private float distanceThrowedPositonTargetPosition;
 	private float traveledThrowDistance = 1;
 	private bool hasReachedMidwayPoint;
+
+	private Vector3 throwedVelocity;
+	private float throwedGravity;
+	private float throwedDistance;
+	private Vector2 originThrowedPosition;
 
 	public override void _Ready()
 	{
@@ -70,7 +74,7 @@ public partial class Pikmin : Living
 		base._PhysicsProcess(delta);
 
 		if (state == E_PikminState.FOLLOWING) Move();
-		if (state == E_PikminState.THROWED) ThrowAtPosition(throwedPosition);
+		if (state == E_PikminState.THROWED) ThrowUpdate();
 	}
 
 	private void Move()
@@ -92,6 +96,46 @@ public partial class Pikmin : Living
 		navigationAgent.TargetPosition = Player.instance.PikminFollowPoint.GlobalPosition;
 	}
 
+	public void Throwed(Vector3 velocity, float gravity, float distance)
+	{
+		if (state == E_PikminState.THROWED)
+			return;
+
+		// State
+		state = E_PikminState.THROWED;
+
+		// Audio
+		throwedAudioStream.Play();
+
+		// Attributs
+		originThrowedPosition = GlobalPosition;
+		throwedVelocity = velocity;
+		throwedGravity = gravity;
+		throwedDistance = distance;
+	}
+
+	public void ThrowUpdate()
+	{
+		// Move
+		Velocity = new Vector2(throwedVelocity.X, throwedVelocity.Z) * movementSpeed;
+		MoveAndSlide();
+
+		// Sprite
+		sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + throwedVelocity.Y);
+		sprite.Scale = Vector2.One * Mathf.Clamp(-verticalPosition / 15, 1, 1.5f);
+
+		// Apply gravity to velocity
+		throwedVelocity.Y += throwedGravity;
+		verticalPosition += throwedVelocity.Y;
+		if (sprite.Position.Y >= 0)
+		{
+			state = E_PikminState.IDLE;
+			verticalPosition = 0;
+			sprite.Position = Vector2.Zero;
+			shadowSprite.Position = new Vector2(0, 6);
+		}
+	}
+	/*
 	public void ThrowAtPosition(Vector2 position)
 	{
 		state = E_PikminState.THROWED;
@@ -132,11 +176,11 @@ public partial class Pikmin : Living
 			throwedPosition = Vector2.Inf;
 			dustParticles.Emitting = true;
 		}
-	}
+	}*/
 
 	public void FollowPlayer()
 	{
-		if (state == E_PikminState.FOLLOWING || IsInGroup("PikminGrabed"))
+		if (state == E_PikminState.FOLLOWING || state == E_PikminState.THROWED || IsInGroup("PikminGrabed"))
 			return;
 
 		AddToGroup("PikminsFollowingCaptain");

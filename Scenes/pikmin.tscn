@@ -123,7 +123,7 @@ healthMax = 5
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(2, 0)
+position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_876n5")
 animation = &"idle"
 autoplay = "idle"
@@ -136,7 +136,8 @@ shape = SubResource("CircleShape2D_hdt1v")
 stream = ExtResource("4_42bsr")
 
 [node name="ShadowSprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, 6)
+position = Vector2(0, 6)
+scale = Vector2(0.9, 1)
 texture = SubResource("GradientTexture2D_vlb7c")
 
 [node name="DustParticles2D" type="GPUParticles2D" parent="."]
