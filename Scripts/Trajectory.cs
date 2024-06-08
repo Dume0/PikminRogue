@@ -24,10 +24,20 @@ public static class Trajectory
    private static int splits = 3;
    static float pathLength = 0;
 
-   public static float GetAngleToReachTarget(Vector2 target, float speed, float gravity)
+   // Angle is in Radians
+   public static float GetAngleBetweenTwoPoints(Vector2 origin, Vector2 target)
+   {
+      float result;
+
+      result = Mathf.Atan2(target.Y - origin.Y, target.X - origin.Y);
+
+      return result;
+   }
+
+   // Angle is in Radians
+   public static float GetVerticalAngleToReachTarget(Vector2 target, float speed, float gravity)
    {
       float result = Mathf.Pow(speed, 4) - gravity * (gravity * Mathf.Pow(target.X, 2) + 2 * target.Y * Mathf.Pow(speed, 2));
-      GD.Print(result);
       result = Mathf.Sqrt(result);
       result = Mathf.Atan((Mathf.Pow(speed, 2) - result) / (gravity * target.X));
 
@@ -35,12 +45,37 @@ public static class Trajectory
    }
 
    // Angle is in Radians
-   public static Vector2 GetVelocity(float angle, float speed)
+   public static float GetVerticalAngle(float speed, float gravity, float distance, bool getSmallAngle)
+   {
+      float result;
+
+      result = (gravity * distance) / (speed * speed);
+      result = Mathf.Asin(result);
+      result = getSmallAngle ? 0.5f * result : Mathf.Pi / 2 - 0.5f * result;
+
+      return result;
+   }
+
+
+   // Angle is in Radians
+   public static Vector2 Get2DVelocity(float angle, float speed)
    {
       Vector2 velocity = new Vector2();
 
       velocity.X = speed * Mathf.Cos(angle);
       velocity.Y = speed * Mathf.Sin(angle);
+
+      return velocity;
+   }
+
+   // Angle is in Radians
+   public static Vector3 Get3DVelocity(float angleVertical, float angleHorizontal, float speed)
+   {
+      Vector3 velocity = new Vector3();
+
+      velocity.X = speed * Mathf.Cos(angleVertical) * Mathf.Cos(angleHorizontal);
+      velocity.Y = speed * Mathf.Sin(angleVertical);
+      velocity.Z = speed * Mathf.Cos(angleVertical) * Mathf.Sin(angleHorizontal);
 
       return velocity;
    }

@@ -83,22 +83,30 @@ public partial class Player : Living
 	{
 		Vector2 offsetCaptain = Position - GlobalPosition;
 		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
-		Vector2 point = offsetCaptain;
+		Vector3 point = new Vector3(offsetCaptain.X, 0, offsetCaptain.Y);
 		Color[] colors = { Colors.Blue, Colors.Red };
 
-		float speed = 10;
-		Vector2 velocity;
-		float gravity = 0.5f;
-		float angle = Trajectory.GetAngleToReachTarget(offsetCursor, speed, gravity);
-		//GD.Print(angle);
 
-		velocity = Trajectory.GetVelocity(angle, speed);
+		float speed = 10;
+		float distance = offsetCaptain.DistanceTo(offsetCursor);
+
+		Vector3 velocity;
+		float gravity = 0.5f;
+		float angleVertical = Trajectory.GetVerticalAngle(speed, gravity, distance, false);
+		float angleHorizontal = Trajectory.GetAngleBetweenTwoPoints(offsetCaptain, offsetCursor);
+		GD.Print(angleHorizontal);
+
+
+		velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, speed);
+		velocity.Y *= -1;
+		//GD.Print(velocity);
+		//GD.Print(angleVertical);
 
 		point += velocity;
 
 		for (var i = 0; i < 200; i++)
 		{
-			DrawCircle(point, 1, colors[i % 2]);
+			DrawCircle(new Vector2(point.X, point.Y + point.Z), 1, colors[i % 2]);
 			velocity.Y += gravity;
 			point += velocity;
 		}
@@ -186,7 +194,7 @@ public partial class Player : Living
 		point = offsetCaptain;
 		while (point.DistanceTo(offsetCaptain) < offsetCursor.DistanceTo(offsetCaptain))
 		{
-			point = point.MoveToward(offsetCursor, 3);
+			point = point.MoveToward(offsetCursor, 5);
 			DrawCircle(point, 1, new Color(255, 255, 255, 0.2f));
 		}
 	}

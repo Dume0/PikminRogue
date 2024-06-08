@@ -9,7 +9,6 @@ radius = 0.01
 
 [node name="Cursor" type="Sprite2D"]
 z_index = 1810
-position = Vector2(0, 1)
 texture = ExtResource("1_xh7d4")
 script = ExtResource("2_0p40h")
 
