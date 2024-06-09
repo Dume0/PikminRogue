@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 public partial class Player : Living
 {
@@ -9,7 +10,7 @@ public partial class Player : Living
 	#region Components
 	private AudioStreamPlayer2D whistlingSound;
 	private AudioStreamPlayer2D walkingSound;
-	public RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
+	private RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
 	private Area2D grabPikminArea;
 	private Node2D grabPikminPoint;
 	#endregion
@@ -77,7 +78,6 @@ public partial class Player : Living
 		DrawLineCaptainCursor();
 	}
 
-
 	private void DrawThrowTrajectory()
 	{
 		Vector2 offsetCaptain = Position - GlobalPosition;
@@ -132,8 +132,7 @@ public partial class Player : Living
 		// Flip sprite
 		if (direction.Y < 0) { isFacingFront = false; }
 		else if (direction.Y > 0) { isFacingFront = true; }
-		if (direction.X < 0) { sprite.FlipH = false; }
-		else if (direction.X > 0) { sprite.FlipH = true; }
+		FlipSprite(direction);
 
 		// Whistle
 		if (Input.IsActionPressed("right_click")) { Whistle(); }
@@ -142,6 +141,10 @@ public partial class Player : Living
 		// Grab Pikmin
 		if (Input.IsActionPressed("left_click")) { GrabPikmin(); }
 		if (Input.IsActionJustReleased("left_click")) { ThrowPikmin(); }
+
+		// Disband Pikmin
+		if (Input.IsActionPressed("disband")) { DisbandAllPikmin(); }
+
 	}
 
 	private void Move()
@@ -164,9 +167,7 @@ public partial class Player : Living
 			canPlayWalkingSound = true;
 		}
 
-		// Apply velocity
-		Velocity = velocity;
-		MoveAndSlide();
+		ApplyVelocity(velocity);
 	}
 
 	//////// Actions ///////////
@@ -199,24 +200,25 @@ public partial class Player : Living
 		foreach (Node2D body in grabPikminArea.GetOverlappingBodies())
 		{
 			// Verifie si l'élément est un Pikmin
-			if (body.IsInGroup("PikminsFollowingCaptain"))
-			{
-				Pikmin pikmin = (Pikmin)body;
+			if (!body.IsInGroup("PikminsFollowingCaptain"))
+				continue;
 
-				pikmin.StopFollowPlayer();
-				pikmin.AddToGroup("PikminGrabed");
+			Pikmin pikmin = (Pikmin)body;
 
-				// Fait du capitaine le parent du Pikmin
-				pikmin.GetParent().RemoveChild(pikmin);
-				grabPikminPoint.AddChild(pikmin);
+			pikmin.StopFollowPlayer();
+			pikmin.AddToGroup("PikminGrabed");
 
-				pikmin.GlobalPosition = grabPikminPoint.GlobalPosition;
+			// Fait du capitaine le parent du Pikmin
+			pikmin.GetParent().RemoveChild(pikmin);
+			grabPikminPoint.AddChild(pikmin);
 
-				isGrabing = true;
-				grabedPikmin = pikmin;
+			pikmin.GlobalPosition = grabPikminPoint.GlobalPosition;
 
-				break;
-			}
+			isGrabing = true;
+			grabedPikmin = pikmin;
+
+			break;
+
 		}
 	}
 
@@ -263,6 +265,11 @@ public partial class Player : Living
 		grabedPikmin = null;
 
 		control.instance.UpdatePikminCount();
+	}
+
+
+	private void DisbandAllPikmin()
+	{
 	}
 	//////////////////////
 	private void AnimationManager()

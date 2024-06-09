@@ -29,6 +29,17 @@ public partial class Living : CharacterBody2D
 
    }
 
+   protected void ApplyVelocity(Vector2 velocity)
+   {
+      Velocity = velocity;
+      MoveAndSlide();
+   }
+
+   protected void FlipSprite(Vector2 direction)
+   {
+      if (direction.X < 0) { sprite.FlipH = false; }
+      else if (direction.X > 0) { sprite.FlipH = true; }
+   }
 
    protected void PlayAnimation(string animationName)
    {

@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://dvxjux1kqpm0j"]
+
+[ext_resource type="Texture2D" uid="uid://d2gd65ho5get6" path="res://Assets/Sprites/Ship.png" id="1_xubfg"]
+
+[sub_resource type="Gradient" id="Gradient_ns6r6"]
+colors = PackedColorArray(0, 0, 0, 0.392157, 0, 0, 0, 0.392157)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mfi6a"]
+gradient = SubResource("Gradient_ns6r6")
+width = 5
+height = 3
+
+[node name="Ship" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_xubfg")
+
+[node name="ShadowSprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.19209e-07, 19)
+scale = Vector2(4, 1)
+texture = SubResource("GradientTexture2D_mfi6a")
