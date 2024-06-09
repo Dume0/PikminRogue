@@ -4199,7 +4199,7 @@ offset_right = -217.0
 offset_bottom = 123.0
 
 [node name="PikminFollowPoint" type="RigidBody2D" parent="Olimar"]
-position = Vector2(-22, 8)
+position = Vector2(0, 10)
 inertia = 1.0
 linear_damp = 5.0
 angular_damp = 5.0

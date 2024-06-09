@@ -148,10 +148,11 @@ public partial class Player : Living
 	{
 		Vector2 velocity = this.Velocity;
 
+		// Velocity
 		velocity.X = this.direction.X != 0 ? this.direction.X * this.movementSpeed : Mathf.MoveToward(velocity.X, 0, this.movementSpeed);
 		velocity.Y = this.direction.Y != 0 ? this.direction.Y * this.movementSpeed : Mathf.MoveToward(velocity.Y, 0, this.movementSpeed);
 
-		// Play 
+		// Play Sound
 		if (velocity != Vector2.Zero && canPlayWalkingSound)
 		{
 			walkingSound.Play();
@@ -163,6 +164,7 @@ public partial class Player : Living
 			canPlayWalkingSound = true;
 		}
 
+		// Apply velocity
 		Velocity = velocity;
 		MoveAndSlide();
 	}
@@ -173,6 +175,7 @@ public partial class Player : Living
 		// Increased whistle radius
 		if (whistleRadius < whistleMaxRadius) { whistleRadius += WHISTLE_SPEED; }
 
+		// Play Sound
 		whistlingSound.Play();
 
 		isWhistling = true;
@@ -254,6 +257,7 @@ public partial class Player : Living
 		Vector3 velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, throwSpeed);
 		velocity.Y *= -1;
 		grabedPikmin.Throwed(velocity, throwGravity, distance);
+		GD.Print(velocity);
 
 		isGrabing = false;
 		grabedPikmin = null;
@@ -266,7 +270,7 @@ public partial class Player : Living
 		if (isWhistling && !isWalking)
 			PlayAnimation("whistling");
 		else if (isWhistling && isWalking)
-			PlayAnimation("whistling_walk_front");
+			PlayAnimation("whistling_walk");
 		else if (isWalking)
 			PlayAnimation("walk");
 		else if (!isWalking)

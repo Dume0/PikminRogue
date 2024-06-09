@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cvnbuxguy7kwl"]
+[gd_scene load_steps=29 format=3 uid="uid://cvnbuxguy7kwl"]
 
 [ext_resource type="Script" path="res://Scripts/Pikmin.cs" id="1_ge2wi"]
 [ext_resource type="Texture2D" uid="uid://cacb5awusslnw" path="res://Assets/Sprites/Pikmin/pikmin_idle.png" id="2_c7dg6"]
@@ -60,6 +60,28 @@ animations = [{
 "name": &"throwed",
 "speed": 10.0
 }]
+
+[sub_resource type="Curve" id="Curve_mi2yh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.634146, 0.67033), -1.8022, -1.8022, 0, 0, Vector2(0.993902, 0.010989), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_wwig1"]
+curve = SubResource("Curve_mi2yh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_um0y5"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_wwig1")
+color = Color(1, 1, 1, 0.0666667)
+
+[sub_resource type="Gradient" id="Gradient_avhgr"]
+colors = PackedColorArray(1, 1, 1, 0.482353, 1, 1, 1, 0.431373)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_sk6vf"]
+gradient = SubResource("Gradient_avhgr")
+width = 1
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdt1v"]
 radius = 1.0
@@ -123,10 +145,19 @@ healthMax = 5
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 1
 position = Vector2(1, 0)
 sprite_frames = SubResource("SpriteFrames_876n5")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="ThrowParticles2D" type="GPUParticles2D" parent="Sprite2D"]
+position = Vector2(-1, 0)
+emitting = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_um0y5")
+texture = SubResource("GradientTexture1D_sk6vf")
+lifetime = 0.1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)

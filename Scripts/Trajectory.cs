@@ -51,6 +51,8 @@ public static class Trajectory
       result = (gravity * distance) / (speed * speed);
       result = Mathf.Asin(result);
       result = getSmallAngle ? 0.5f * result : Mathf.Pi / 2 - 0.5f * result;
+      if (!getSmallAngle && result == float.NaN)
+         result = 0.5f * result;
 
       return result;
    }
