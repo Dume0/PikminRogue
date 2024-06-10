@@ -8,6 +8,8 @@ radius = 3.0
 
 [node name="Palet" type="CharacterBody2D"]
 script = ExtResource("1_4bd31")
+isPikminFood = true
+movementSpeed = 20.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_rxr3d")

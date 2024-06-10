@@ -26,7 +26,6 @@ public partial class Player : Living
 	[Export] public float movementSpeed = 100.0f;
 
 	private Pikmin grabedPikmin;
-	[Export] private Node2D pikminParent;
 
 	#region States
 	public bool isWalking = false; public bool IsWalking { get { return isWalking; } private set { } }
@@ -47,7 +46,7 @@ public partial class Player : Living
 	public override void _Ready()
 	{
 		base._Ready();
-		if (instance == null) { instance = this; } // Singleton
+		if (instance == null) { instance = this; } else { GD.PrintErr("Two or more instance of this object are presents"); } // Singleton
 
 		whistlingSound = GetNode<AudioStreamPlayer2D>("WhistlingSound");
 		walkingSound = GetNode<AudioStreamPlayer2D>("WalkingSound");
@@ -171,6 +170,7 @@ public partial class Player : Living
 	}
 
 	//////// Actions ///////////
+	#region Whistle
 	private void Whistle()
 	{
 		// Increased whistle radius
@@ -190,7 +190,9 @@ public partial class Player : Living
 
 		isWhistling = false;
 	}
+	#endregion
 
+	#region Throw
 	private void GrabPikmin()
 	{
 		if (grabedPikmin != null)
@@ -203,22 +205,18 @@ public partial class Player : Living
 			if (!body.IsInGroup("PikminsFollowingCaptain"))
 				continue;
 
-			Pikmin pikmin = (Pikmin)body;
+			grabedPikmin = (Pikmin)body;
 
-			pikmin.StopFollowPlayer();
-			pikmin.AddToGroup("PikminGrabed");
+			grabedPikmin.StopFollowPlayer();
+			grabedPikmin.AddToGroup("PikminGrabed");
 
 			// Fait du capitaine le parent du Pikmin
-			pikmin.GetParent().RemoveChild(pikmin);
-			grabPikminPoint.AddChild(pikmin);
+			Utils.SetParent(grabedPikmin, grabPikminPoint);
 
-			pikmin.GlobalPosition = grabPikminPoint.GlobalPosition;
+			grabedPikmin.GlobalPosition = grabPikminPoint.GlobalPosition;
 
 			isGrabing = true;
-			grabedPikmin = pikmin;
-
 			break;
-
 		}
 	}
 
@@ -230,8 +228,7 @@ public partial class Player : Living
 
 		grabedPikmin.FollowPlayer();
 
-		grabedPikmin.GetParent().RemoveChild(grabedPikmin);
-		pikminParent.AddChild(grabedPikmin);
+		Utils.SetParent(grabedPikmin, GetTree().Root.GetChild(0));
 
 		isGrabing = false;
 		grabedPikmin = null;
@@ -244,8 +241,7 @@ public partial class Player : Living
 
 		grabedPikmin.StopFollowPlayer();
 
-		grabedPikmin.GetParent().RemoveChild(grabedPikmin);
-		pikminParent.AddChild(grabedPikmin);
+		Utils.SetParent(grabedPikmin, GetTree().Root.GetChild(0));
 
 		grabedPikmin.GlobalPosition = GlobalPosition;
 
@@ -259,14 +255,13 @@ public partial class Player : Living
 		Vector3 velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, throwSpeed);
 		velocity.Y *= -1;
 		grabedPikmin.Throwed(velocity, throwGravity, distance);
-		GD.Print(velocity);
 
 		isGrabing = false;
 		grabedPikmin = null;
 
 		control.instance.UpdatePikminCount();
 	}
-
+	#endregion
 
 	private void DisbandAllPikmin()
 	{

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://xd4b5uk3qgmt"]
+[gd_scene load_steps=16 format=3 uid="uid://xd4b5uk3qgmt"]
 
 [ext_resource type="PackedScene" uid="uid://d126cb12vrx8o" path="res://Scenes/olimar.tscn" id="1_wg6tw"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="2_kxr6m"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://daupphdjvpphh" path="res://Scenes/control.tscn" id="8_jmi5q"]
 [ext_resource type="PackedScene" uid="uid://dvxjux1kqpm0j" path="res://Scenes/ship.tscn" id="9_pvdjk"]
 [ext_resource type="PackedScene" uid="uid://bdv5sqoayriis" path="res://Scenes/palet.tscn" id="10_y1c8v"]
+[ext_resource type="PackedScene" uid="uid://c7voxwnmsfo8l" path="res://Scenes/oignon.tscn" id="11_kan5t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ayk3q"]
 
@@ -4179,16 +4180,21 @@ agent_radius = 4.0
 [node name="GameManager" parent="." instance=ExtResource("5_ki41k")]
 script = ExtResource("2_kxr6m")
 
+[node name="Oignon" parent="." instance=ExtResource("11_kan5t")]
+position = Vector2(22, -34)
+
+[node name="Ship" parent="." instance=ExtResource("9_pvdjk")]
+position = Vector2(-17, -52)
+
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
 position = Vector2(0, 8)
 node_a = NodePath("../Olimar")
 node_b = NodePath("../Olimar/PikminFollowPoint")
 bias = 0.5
 
-[node name="Olimar" parent="." node_paths=PackedStringArray("pikminParent") instance=ExtResource("1_wg6tw")]
+[node name="Olimar" parent="." instance=ExtResource("1_wg6tw")]
 unique_name_in_owner = true
 z_index = -1
-pikminParent = NodePath("../Pikmins")
 throwGravity = 0.8
 
 [node name="Camera2D" type="Camera2D" parent="Olimar"]
@@ -4238,9 +4244,6 @@ position = Vector2(-35, -22)
 
 [node name="Pikmin3" parent="Pikmins" instance=ExtResource("3_185c5")]
 position = Vector2(-56, 6)
-
-[node name="Ship" parent="." instance=ExtResource("9_pvdjk")]
-position = Vector2(-17, -52)
 
 [node name="Palet" parent="." instance=ExtResource("10_y1c8v")]
 position = Vector2(-75, 13)

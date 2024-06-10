@@ -46,7 +46,8 @@ public abstract partial class Pikmin : Living
 	private E_PikminGrowth growth = E_PikminGrowth.LEAF; public E_PikminGrowth Growth { get { return growth; } private set { } }
 	#endregion
 
-	[Export] public float movementSpeed = 100.0f;
+
+	[Export] public float movementSpeed = 50.0f;
 
 	private float verticalPosition = 0;
 
@@ -70,6 +71,7 @@ public abstract partial class Pikmin : Living
 		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
 		throwParticles = sprite.GetNode<GpuParticles2D>("ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
+
 	}
 
 	public override void _Process(double delta)

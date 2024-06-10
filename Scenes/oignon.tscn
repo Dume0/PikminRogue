@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7voxwnmsfo8l"]
+
+[ext_resource type="Script" path="res://Scripts/Oignon.cs" id="1_m8x2d"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_mfabc"]
+
+[node name="Oignon" type="Node2D"]
+script = ExtResource("1_m8x2d")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_mfabc")

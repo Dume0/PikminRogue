@@ -25,7 +25,7 @@ public partial class Cursor : Sprite2D
 	public override void _Ready()
 	{
 		base._Ready();
-		if (instance == null) { instance = this; } // Singleton
+		if (instance == null) { instance = this; } else { GD.PrintErr("Two or more instance of this object are presents"); }// Singleton
 
 		area2D = GetNode<Area2D>("Area2D");
 		collider = GetNode<CollisionShape2D>("Area2D/CollisionShape2D");
