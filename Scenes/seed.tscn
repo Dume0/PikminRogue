@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://maj37pee84w7"]
+
+[ext_resource type="Texture2D" uid="uid://bok0n7fd6wyel" path="res://Assets/Sprites/V1/Pikmin/pikmin_seed.png" id="1_pq4mb"]
+[ext_resource type="Script" path="res://Scripts/Seed.cs" id="2_dwhv3"]
+
+[node name="Seed" type="Sprite2D"]
+z_index = 1
+texture = ExtResource("1_pq4mb")
+script = ExtResource("2_dwhv3")

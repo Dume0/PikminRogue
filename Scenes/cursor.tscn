@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://4v4cgb0w1d44"]
 
-[ext_resource type="Texture2D" uid="uid://b7hn7slimwml7" path="res://Assets/Sprites/cursor.png" id="1_xh7d4"]
+[ext_resource type="Texture2D" uid="uid://b7hn7slimwml7" path="res://Assets/Sprites/V1/cursor.png" id="1_xh7d4"]
 [ext_resource type="Script" path="res://Scripts/Cursor.cs" id="2_0p40h"]
 [ext_resource type="PackedScene" uid="uid://bggvjpv7blfef" path="res://Scenes/whistle_point.tscn" id="3_1ckyu"]
 

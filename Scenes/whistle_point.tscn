@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bggvjpv7blfef"]
 
-[ext_resource type="Texture2D" uid="uid://dbs3khgocfqwk" path="res://Assets/Sprites/whistle_point.png" id="1_2x3o8"]
-[ext_resource type="Texture2D" uid="uid://bv6r5qx70m5g0" path="res://Assets/Sprites/2d_lights_and_shadows_neutral_point_light.webp" id="2_uhj1g"]
+[ext_resource type="Texture2D" uid="uid://dbs3khgocfqwk" path="res://Assets/Sprites/V1/whistle_point.png" id="1_2x3o8"]
+[ext_resource type="Texture2D" uid="uid://bv6r5qx70m5g0" path="res://Assets/Sprites/V1/2d_lights_and_shadows_neutral_point_light.webp" id="2_uhj1g"]
 
 [node name="WhistlePoint" type="Node2D"]
 

@@ -25,6 +25,7 @@ public partial class Item : CharacterBody2D
 
    [Export] private bool isPikminFood; public bool IsPikminFood { get { return isPikminFood; } private set { } }
    [Export] private float movementSpeed = 50f; public float MovementSpeed { get { return movementSpeed; } private set { } }
+   [Export] private int value = 0; public int Value { get { return value; } private set { } }
 
    private List<Vector2> pikminHandlePoints = new List<Vector2>();
    private int pikminHandlePointsIndex = 0;
@@ -73,7 +74,6 @@ public partial class Item : CharacterBody2D
          point.X = shape.Radius * Mathf.Cos(2 * Mathf.Pi * i / MaxWeight);
          point.Y = shape.Radius * Mathf.Sin(2 * Mathf.Pi * i / MaxWeight);
          pikminHandlePoints.Add(point);
-         GD.Print(point);
       }
    }
 
@@ -83,11 +83,19 @@ public partial class Item : CharacterBody2D
       Vector2 direction = new Vector2();
 
       direction = Position.DirectionTo(navigationAgent.GetNextPathPosition());
-      velocity = direction * movementSpeed;
+      velocity = direction * (movementSpeed + (pikminCarrying.Count / weight * movementSpeed));
       navigationAgent.SetVelocityForced(velocity);
 
       Velocity = velocity;
       MoveAndSlide();
+   }
+
+   public void FreeAllPikmin()
+   {
+      for (int i = pikminCarrying.Count - 1; i >= 0; i--)
+      {
+         RemovePikminFromGroup(pikminCarrying[i]);
+      }
    }
 
    public void AddPikminToGroup(Pikmin pikmin)

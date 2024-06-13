@@ -9,7 +9,8 @@ public enum E_PikminState
 	MOVING_TO_ITEM,
 	THROWED,
 	FIGHTING,
-	CARRYING
+	CARRYING,
+	GRABED
 }
 
 public enum E_Element
@@ -71,7 +72,6 @@ public abstract partial class Pikmin : Living
 		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
 		throwParticles = sprite.GetNode<GpuParticles2D>("ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
-
 	}
 
 	public override void _Process(double delta)
@@ -243,6 +243,39 @@ public abstract partial class Pikmin : Living
 		state = E_PikminState.IDLE;
 	}
 
+	public void BeingGrabed()
+	{
+		if (state != E_PikminState.FOLLOWING_CAPTAIN)
+			return;
+
+		StopFollowPlayer();
+		AddToGroup("PikminGrabed");
+		state = E_PikminState.GRABED;
+	}
+
+	private void AnimationManager()
+	{
+		switch (state)
+		{
+			case E_PikminState.IDLE:
+				sprite.Play("idle");
+				break;
+			case E_PikminState.MOVING_TO_ITEM:
+			case E_PikminState.CARRYING:
+			case E_PikminState.GRABED:
+			case E_PikminState.FOLLOWING_CAPTAIN:
+				sprite.Play("idle");
+				break;
+			case E_PikminState.THROWED:
+				sprite.Play("throwed");
+				break;
+			default:
+				GD.PushError("Pikmin AnimationManager : default case reached");
+				break;
+		}
+	}
+
+	#region Signals
 	private void OnNavigationAgent2dTargetReached()
 	{
 		switch (state)
@@ -256,24 +289,9 @@ public abstract partial class Pikmin : Living
 		}
 	}
 
-	private void AnimationManager()
+	private void OnDestroy()
 	{
-		switch (state)
-		{
-			case E_PikminState.IDLE:
-				sprite.Play("idle");
-				break;
-			case E_PikminState.MOVING_TO_ITEM:
-			case E_PikminState.CARRYING:
-			case E_PikminState.FOLLOWING_CAPTAIN:
-				sprite.Play("idle");
-				break;
-			case E_PikminState.THROWED:
-				sprite.Play("throwed");
-				break;
-			default:
-				GD.PushError("Pikmin AnimationManager : default case reached");
-				break;
-		}
+		control.instance.UpdatePikminCount();
 	}
+	#endregion
 }

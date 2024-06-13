@@ -1,12 +1,12 @@
-[gd_scene load_steps=26 format=3 uid="uid://d126cb12vrx8o"]
+[gd_scene load_steps=27 format=3 uid="uid://d126cb12vrx8o"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_f3n6b"]
-[ext_resource type="Texture2D" uid="uid://c1fwpj41afwjg" path="res://Assets/Sprites/Olimar/olimar_idle_back.png" id="2_d6kh4"]
-[ext_resource type="Texture2D" uid="uid://btuoc5mcmtpye" path="res://Assets/Sprites/Olimar/olimar_idle_front.png" id="2_y3cgj"]
-[ext_resource type="Texture2D" uid="uid://ba0pwjtsim3us" path="res://Assets/Sprites/Olimar/olimar_walk_front.png" id="3_74wg2"]
-[ext_resource type="Texture2D" uid="uid://nogb8sqd5ba5" path="res://Assets/Sprites/Olimar/olimar_whistling_front.png" id="4_cbw0a"]
-[ext_resource type="Texture2D" uid="uid://bscj5uwc25q8w" path="res://Assets/Sprites/Olimar/olimar_walk_back.png" id="4_ui4ch"]
-[ext_resource type="Texture2D" uid="uid://bvesgfa3n75fe" path="res://Assets/Sprites/Olimar/olimar_whistling_walking_front.png" id="5_bxx32"]
+[ext_resource type="Texture2D" uid="uid://c1fwpj41afwjg" path="res://Assets/Sprites/V1/Olimar/olimar_idle_back.png" id="2_d6kh4"]
+[ext_resource type="Texture2D" uid="uid://ba0pwjtsim3us" path="res://Assets/Sprites/V1/Olimar/olimar_walk_front.png" id="3_74wg2"]
+[ext_resource type="Texture2D" uid="uid://dosgq3uuwhom2" path="res://Assets/Sprites/Olimar/olimar_idle.png" id="3_381ti"]
+[ext_resource type="Texture2D" uid="uid://nogb8sqd5ba5" path="res://Assets/Sprites/V1/Olimar/olimar_whistling_front.png" id="4_cbw0a"]
+[ext_resource type="Texture2D" uid="uid://bscj5uwc25q8w" path="res://Assets/Sprites/V1/Olimar/olimar_walk_back.png" id="4_ui4ch"]
+[ext_resource type="Texture2D" uid="uid://bvesgfa3n75fe" path="res://Assets/Sprites/V1/Olimar/olimar_whistling_walking_front.png" id="5_bxx32"]
 [ext_resource type="AudioStream" uid="uid://dyaoxad41tc4a" path="res://Assets/Sounds/Olimar/whistle.wav" id="6_obfhi"]
 [ext_resource type="AudioStream" uid="uid://c6ur3bensxk2i" path="res://Assets/Sounds/Olimar/grass1.wav" id="7_yufch"]
 
@@ -18,13 +18,17 @@ region = Rect2(0, 0, 17, 22)
 atlas = ExtResource("2_d6kh4")
 region = Rect2(17, 0, 17, 22)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r56fn"]
-atlas = ExtResource("2_y3cgj")
-region = Rect2(0, 0, 17, 23)
+[sub_resource type="AtlasTexture" id="AtlasTexture_4n51o"]
+atlas = ExtResource("3_381ti")
+region = Rect2(0, 0, 15, 20)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_i74q0"]
-atlas = ExtResource("2_y3cgj")
-region = Rect2(17, 0, 17, 23)
+[sub_resource type="AtlasTexture" id="AtlasTexture_l22x0"]
+atlas = ExtResource("3_381ti")
+region = Rect2(15, 0, 15, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5meop"]
+atlas = ExtResource("3_381ti")
+region = Rect2(30, 0, 15, 20)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nsdwe"]
 atlas = ExtResource("4_ui4ch")
@@ -69,14 +73,38 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_r56fn")
+"texture": SubResource("AtlasTexture_4n51o")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_i74q0")
+"texture": SubResource("AtlasTexture_4n51o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n51o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4n51o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l22x0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5meop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5meop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5meop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5meop")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l22x0")
 }],
 "loop": true,
 "name": &"idle_front",
-"speed": 3.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -141,11 +169,11 @@ healthMax = 20
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
 z_index = 5
-position = Vector2(0, -8)
+position = Vector2(1, -6)
 sprite_frames = SubResource("SpriteFrames_lvy8g")
-animation = &"walk_back"
+animation = &"idle_front"
 autoplay = "idle_front"
-frame_progress = 0.0240645
+frame_progress = 0.515499
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1)

@@ -15,9 +15,17 @@ run/main_scene="res://Scenes/game.tscn"
 config/features=PackedStringArray("4.2", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[aseprite_importers]
+
+aseprite_executable_path="C:\\Users\\julie\\Downloads\\Aseprite 1.2.32\\Aseprite1.2.32\\Aseprite.exe"
+
 [dotnet]
 
 project/assembly_name="PikminRogue"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/nklbdev.aseprite_importers/plugin.cfg")
 
 [input]
 

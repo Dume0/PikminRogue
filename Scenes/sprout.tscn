@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3a4hnt8axnec"]
+
+[ext_resource type="Script" path="res://Scripts/Sprout.cs" id="1_7erxj"]
+[ext_resource type="Texture2D" uid="uid://u28recvctqtl" path="res://Assets/Sprites/V1/Pikmin/pikmin_sprout.png" id="2_fq1vg"]
+[ext_resource type="AudioStream" uid="uid://fq1yi5mli2s8" path="res://Assets/Sounds/Pikmin/pluck7.wav" id="3_1qprq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_hjpj2"]
+radius = 9.21954
+
+[node name="Sprout" type="Node2D" groups=["Sprouts"]]
+script = ExtResource("1_7erxj")
+
+[node name="Sprite2D" type="Sprite2D" parent="." groups=["Sprouts"]]
+position = Vector2(0, -4)
+texture = ExtResource("2_fq1vg")
+
+[node name="Area2D" type="Area2D" parent="." groups=["Sprouts"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" groups=["Sprouts"]]
+shape = SubResource("CircleShape2D_hjpj2")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1qprq")

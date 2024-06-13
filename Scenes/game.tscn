@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://d126cb12vrx8o" path="res://Scenes/olimar.tscn" id="1_wg6tw"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="2_kxr6m"]
-[ext_resource type="Texture2D" uid="uid://csl1goe5mrav1" path="res://Assets/Sprites/Tileset.png" id="2_qi68t"]
+[ext_resource type="Texture2D" uid="uid://csl1goe5mrav1" path="res://Assets/Sprites/V1/Tileset.png" id="2_qi68t"]
 [ext_resource type="PackedScene" uid="uid://cvnbuxguy7kwl" path="res://Scenes/red_pikmin.tscn" id="3_185c5"]
-[ext_resource type="Texture2D" uid="uid://dbs3khgocfqwk" path="res://Assets/Sprites/whistle_point.png" id="4_5opxt"]
+[ext_resource type="Texture2D" uid="uid://dbs3khgocfqwk" path="res://Assets/Sprites/V1/whistle_point.png" id="4_5opxt"]
 [ext_resource type="PackedScene" uid="uid://b1u1ixnj0do56" path="res://Scenes/game_manager.tscn" id="5_ki41k"]
 [ext_resource type="PackedScene" uid="uid://4v4cgb0w1d44" path="res://Scenes/cursor.tscn" id="6_ygseq"]
 [ext_resource type="PackedScene" uid="uid://daupphdjvpphh" path="res://Scenes/control.tscn" id="8_jmi5q"]
@@ -4181,7 +4181,7 @@ agent_radius = 4.0
 script = ExtResource("2_kxr6m")
 
 [node name="Oignon" parent="." instance=ExtResource("11_kan5t")]
-position = Vector2(22, -34)
+position = Vector2(48, -26)
 
 [node name="Ship" parent="." instance=ExtResource("9_pvdjk")]
 position = Vector2(-17, -52)
@@ -4246,4 +4246,4 @@ position = Vector2(-35, -22)
 position = Vector2(-56, 6)
 
 [node name="Palet" parent="." instance=ExtResource("10_y1c8v")]
-position = Vector2(-75, 13)
+position = Vector2(-83, 23)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dvxjux1kqpm0j"]
 
 [ext_resource type="Script" path="res://Scripts/Ship.cs" id="1_fonjf"]
-[ext_resource type="Texture2D" uid="uid://d2gd65ho5get6" path="res://Assets/Sprites/Ship.png" id="1_xubfg"]
+[ext_resource type="Texture2D" uid="uid://d2gd65ho5get6" path="res://Assets/Sprites/V1/Ship.png" id="1_xubfg"]
 
 [sub_resource type="Gradient" id="Gradient_ns6r6"]
 colors = PackedColorArray(0, 0, 0, 0.392157, 0, 0, 0, 0.392157)

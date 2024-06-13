@@ -77,6 +77,7 @@ public partial class Player : Living
 		DrawLineCaptainCursor();
 	}
 
+	#region Draw
 	private void DrawThrowTrajectory()
 	{
 		Vector2 offsetCaptain = Position - GlobalPosition;
@@ -118,6 +119,7 @@ public partial class Player : Living
 			DrawCircle(point, 1, new Color(255, 255, 255, 0.2f));
 		}
 	}
+	#endregion
 
 	private void ReadInput()
 	{
@@ -137,8 +139,12 @@ public partial class Player : Living
 		if (Input.IsActionPressed("right_click")) { Whistle(); }
 		else { EndWhistle(); }
 
-		// Grab Pikmin
-		if (Input.IsActionPressed("left_click")) { GrabPikmin(); }
+		// Left Click
+		if (Input.IsActionJustPressed("left_click"))
+		{
+			if (PluckSprout()) { }
+			else { GrabPikmin(); }
+		}
 		if (Input.IsActionJustReleased("left_click")) { ThrowPikmin(); }
 
 		// Disband Pikmin
@@ -207,8 +213,7 @@ public partial class Player : Living
 
 			grabedPikmin = (Pikmin)body;
 
-			grabedPikmin.StopFollowPlayer();
-			grabedPikmin.AddToGroup("PikminGrabed");
+			grabedPikmin.BeingGrabed();
 
 			// Fait du capitaine le parent du Pikmin
 			Utils.SetParent(grabedPikmin, grabPikminPoint);
@@ -263,6 +268,25 @@ public partial class Player : Living
 	}
 	#endregion
 
+	// Return true if pluck
+	private bool PluckSprout()
+	{
+		if (grabedPikmin != null)
+			return false;
+
+		// Itere sur tous les elements à portée de grab
+		foreach (Node2D body in grabPikminArea.GetOverlappingAreas())
+		{
+			// Verifie si l'élément est une pousse
+			if (!body.IsInGroup("Sprouts"))
+				continue;
+
+			Sprout sprout = (Sprout)body.GetParent();
+			sprout.Pluck();
+			return true;
+		}
+		return false;
+	}
 	private void DisbandAllPikmin()
 	{
 	}
