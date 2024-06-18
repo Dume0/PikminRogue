@@ -23,7 +23,7 @@ public partial class PikminCount : PanelContainer
 
 	public void UpdatePikminCount()
 	{
-		int pikminCount = GetTree().GetNodesInGroup(Group.E_GroupToString(E_Group.PIKMIN)).Count;
+		int pikminCount = GetTree().GetNodesInGroup(Group.E_GroupToString(E_Group.PIKMIN)).Count / 2;
 		int pikminFollowingCaptainCount = GetTree().GetNodesInGroup(Group.E_GroupToString(E_Group.PIKMIN_FOLLOWING_CAPTAIN)).Count;
 
 		pikminCountLabel.Text = pikminFollowingCaptainCount + " / " + pikminCount;

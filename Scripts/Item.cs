@@ -9,6 +9,7 @@ public partial class Item : Object
    private NavigationAgent2D navigationAgent;
    private CollisionShape2D collision;
    private CircleShape2D shape;
+   private AnimationPlayer animationPlayer;
    #endregion
 
    // Weight
@@ -16,6 +17,7 @@ public partial class Item : Object
    public int MaxWeight { get { return weight * 2; } private set { } }
    public bool CanNewPikminCarryItem { get { return pikminCarrying.Count < weight * 2; } private set { } }
    public bool IsBeingCarried { get { return pikminCarrying.Count >= weight; } private set { } }
+   public bool canBeCarried = true;
 
    // Text
    private Label weightLabel;
@@ -30,6 +32,8 @@ public partial class Item : Object
    private List<Vector2> pikminHandlePoints = new List<Vector2>();
    private int pikminHandlePointsIndex = 0;
 
+   [Export] public bool HasEndTowed;
+
    public override void _Ready()
    {
       base._Ready();
@@ -39,6 +43,7 @@ public partial class Item : Object
       AddChild(navigationAgent);
       collision = GetNode<CollisionShape2D>("CollisionShape2D");
       shape = (CircleShape2D)collision.Shape;
+      animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
       // Create Label
       weightLabel = new Label();
@@ -52,7 +57,7 @@ public partial class Item : Object
       AddToGroup(E_Group.ITEM);
 
       // Set Target of NavigationAgent
-      navigationAgent.TargetPosition = isPikminFood ? Oignon.instance.GlobalPosition : Ship.instance.GlobalPosition;
+      navigationAgent.TargetPosition = isPikminFood ? Onion.instance.Beam.ItemTarget : Ship.instance.Beam.ItemTarget;
 
       // Set Handles
       SetPikminHandlePoints();
@@ -100,6 +105,9 @@ public partial class Item : Object
 
    public void AddPikminToGroup(Pikmin pikmin)
    {
+      if (!canBeCarried)
+         return;
+
       pikminCarrying.Add(pikmin);
       Utils.SetParent(pikmin, this);
 
@@ -109,6 +117,11 @@ public partial class Item : Object
       pikminHandlePointsIndex++;
 
       UpdateWeightLabel();
+   }
+
+   public void PlayTowedAnimation()
+   {
+      animationPlayer.Play("Towed");
    }
 
    public void RemovePikminFromGroup(Pikmin pikmin)
@@ -128,5 +141,10 @@ public partial class Item : Object
    {
       weightLabel.Text = pikminCarrying.Count + "/" + weight;
       weightLabel.Visible = pikminCarrying.Count > 0;
+   }
+
+   public void ActivateCollision(bool activate)
+   {
+      collision.Disabled = !activate;
    }
 }

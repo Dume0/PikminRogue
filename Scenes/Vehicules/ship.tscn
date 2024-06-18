@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://dvxjux1kqpm0j"]
+
+[ext_resource type="Script" path="res://Scripts/Vehicules/Ship.cs" id="1_7nxyt"]
+[ext_resource type="Texture2D" uid="uid://bo03ckkaihpom" path="res://Assets/Sprites/Vehicules/Ship/ship_idle.png" id="2_v4wup"]
+[ext_resource type="Texture2D" uid="uid://cqpj8jiuijp6h" path="res://Assets/Sprites/Vehicules/Ship/ship_light.png" id="3_tetf4"]
+[ext_resource type="PackedScene" uid="uid://cy3q4yalqdc8c" path="res://Scenes/Vehicules/beam.tscn" id="4_wl646"]
+
+[sub_resource type="Gradient" id="Gradient_ns6r6"]
+colors = PackedColorArray(0, 0, 0, 0.392157, 0, 0, 0, 0.392157)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mfi6a"]
+gradient = SubResource("Gradient_ns6r6")
+width = 5
+height = 3
+
+[sub_resource type="Animation" id="Animation_uq3sl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ggbc0"]
+resource_name = "idle"
+length = 2.40001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xk8rw"]
+_data = {
+"RESET": SubResource("Animation_uq3sl"),
+"idle": SubResource("Animation_ggbc0")
+}
+
+[node name="Ship" type="Node2D"]
+position = Vector2(0, 0.7523)
+script = ExtResource("1_7nxyt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 3
+texture = ExtResource("2_v4wup")
+hframes = 4
+
+[node name="LightSprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(0, 29.2477)
+texture = ExtResource("3_tetf4")
+
+[node name="ShadowSprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, 21)
+scale = Vector2(2.4, 1)
+texture = SubResource("GradientTexture2D_mfi6a")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xk8rw")
+}
+autoplay = "idle"
+
+[node name="Beam" parent="." instance=ExtResource("4_wl646")]
+position = Vector2(0, 19.2477)
+
+[connection signal="ItemReceived" from="Beam" to="." method="OnBeamItemReceived"]

@@ -9,9 +9,9 @@
 [ext_resource type="PackedScene" uid="uid://ca383ykbhttqs" path="res://Scenes/UI/control.tscn" id="6_rbuev"]
 [ext_resource type="PackedScene" uid="uid://4v4cgb0w1d44" path="res://Scenes/cursor.tscn" id="6_ygseq"]
 [ext_resource type="Texture2D" uid="uid://bqn80va4uitxi" path="res://Assets/Sprites/Environnement/Dirt/Ground.png" id="8_n3vye"]
-[ext_resource type="PackedScene" uid="uid://dvxjux1kqpm0j" path="res://Scenes/ship.tscn" id="9_pvdjk"]
+[ext_resource type="PackedScene" uid="uid://dvxjux1kqpm0j" path="res://Scenes/Vehicules/ship.tscn" id="9_pvdjk"]
 [ext_resource type="PackedScene" uid="uid://bdv5sqoayriis" path="res://Scenes/pellet.tscn" id="10_y1c8v"]
-[ext_resource type="PackedScene" uid="uid://c7voxwnmsfo8l" path="res://Scenes/oignon.tscn" id="11_kan5t"]
+[ext_resource type="PackedScene" uid="uid://c7voxwnmsfo8l" path="res://Scenes/Vehicules/onion.tscn" id="11_kan5t"]
 [ext_resource type="PackedScene" uid="uid://ba4pcvf82nx3a" path="res://Scenes/Vegetations/fiddlehead.tscn" id="13_ctbtl"]
 [ext_resource type="PackedScene" uid="uid://o8lxyvqbpx0b" path="res://Scenes/Vegetations/pellet_posy.tscn" id="14_dok58"]
 [ext_resource type="PackedScene" uid="uid://yklqatmjf8gh" path="res://Scenes/Ennemies/dwarf_bulborb.tscn" id="15_jlb86"]
@@ -4577,7 +4577,6 @@ y_sort_enabled = true
 position = Vector2(-56, 6)
 
 [node name="Pellet" parent="." instance=ExtResource("10_y1c8v")]
-z_index = 1
 position = Vector2(-83, 23)
 
 [node name="Vegetations" type="Node2D" parent="."]

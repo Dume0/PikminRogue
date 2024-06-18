@@ -22,6 +22,11 @@ public abstract partial class Creature : Living
       AddToGroup(E_Group.CREATURE);
    }
 
+   public void ActivateCollision(bool activate)
+   {
+      shadowCollider.Disabled = !activate;
+   }
+
    public Creature GetCreatureInCollision()
    {
       Creature creature = null;

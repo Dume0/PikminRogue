@@ -46,7 +46,6 @@ public abstract partial class Pikmin : Creature
 	private E_PikminGrowth growth = E_PikminGrowth.LEAF; public E_PikminGrowth Growth { get { return growth; } private set { } }
 	#endregion
 
-
 	[Export] public float movementSpeed = 50.0f;
 
 	private float verticalPosition = 0;
@@ -73,6 +72,7 @@ public abstract partial class Pikmin : Creature
 		creatureArea.AddToGroup(Group.E_GroupToString(E_Group.PIKMIN));
 
 		AddToGroup(E_Group.PIKMIN);
+
 	}
 
 	public override void _Process(double delta)
@@ -188,12 +188,12 @@ public abstract partial class Pikmin : Creature
 		verticalPosition += throwedVelocity.Y;
 
 		// Find an ennemy
-		if (GetCreatureInCollision() != null)
-		{
-			if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
-				GD.Print(GetCreatureInCollision().Name);
-		}
-
+		/*	if (GetCreatureInCollision() != null)
+			{
+				if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
+					GD.Print(GetCreatureInCollision().Name);
+			}
+	*/
 		// End condition
 		if (sprite.Position.Y >= 0)
 		{
@@ -282,11 +282,6 @@ public abstract partial class Pikmin : Creature
 		StopFollowPlayer();
 		AddToGroup(E_Group.PIKMIN_GRABED);
 		state = E_PikminState.GRABED;
-	}
-
-	public void ActivateCollision(bool activate)
-	{
-		shadowCollider.Disabled = !activate;
 	}
 
 	private void AnimationManager()

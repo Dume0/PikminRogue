@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://c3a4hnt8axnec"]
 
-[ext_resource type="Script" path="res://Scripts/Sprout.cs" id="1_7erxj"]
+[ext_resource type="Script" path="res://Scripts/Pikmins/Sprout.cs" id="1_7erxj"]
 [ext_resource type="Texture2D" uid="uid://u28recvctqtl" path="res://Assets/Sprites/V1/Pikmin/pikmin_sprout.png" id="2_fq1vg"]
 [ext_resource type="AudioStream" uid="uid://fq1yi5mli2s8" path="res://Assets/Sounds/Pikmin/pluck7.wav" id="3_1qprq"]
 

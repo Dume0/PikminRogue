@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=3 uid="uid://c7voxwnmsfo8l"]
+
+[ext_resource type="Script" path="res://Scripts/Vehicules/Onion.cs" id="1_agw0b"]
+[ext_resource type="Texture2D" uid="uid://dfgoi235mkdh4" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_idle.png" id="2_fx4h5"]
+[ext_resource type="PackedScene" uid="uid://cy3q4yalqdc8c" path="res://Scenes/Vehicules/beam.tscn" id="2_kl0us"]
+[ext_resource type="Texture2D" uid="uid://4rgsi0utst4c" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_front_legs.png" id="3_xyvfn"]
+[ext_resource type="Texture2D" uid="uid://dmes6l7362msv" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_back_leg.png" id="4_xaatp"]
+[ext_resource type="Texture2D" uid="uid://bbhwui7oryx0i" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_shadow.png" id="5_xb0il"]
+[ext_resource type="Texture2D" uid="uid://cmvalwp833num" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_light.png" id="7_df2br"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6mtp"]
+atlas = ExtResource("2_fx4h5")
+region = Rect2(0, 0, 29, 25)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_547hv"]
+atlas = ExtResource("2_fx4h5")
+region = Rect2(29, 0, 29, 25)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_glnte"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6mtp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_547hv")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Onion" type="Node2D"]
+y_sort_enabled = true
+script = ExtResource("1_agw0b")
+
+[node name="Beam" parent="." instance=ExtResource("2_kl0us")]
+position = Vector2(0, -19)
+
+[node name="SproutPoint" type="Node2D" parent="."]
+position = Vector2(0, -51)
+
+[node name="Sprites" type="Node2D" parent="."]
+y_sort_enabled = true
+
+[node name="OnionSprite" type="AnimatedSprite2D" parent="Sprites"]
+z_index = 2
+position = Vector2(0, -45)
+sprite_frames = SubResource("SpriteFrames_glnte")
+autoplay = "default"
+frame_progress = 0.457786
+
+[node name="FrontLegsSprite" type="Sprite2D" parent="Sprites"]
+z_index = 1
+position = Vector2(0, -18)
+texture = ExtResource("3_xyvfn")
+
+[node name="BackLegSprite" type="Sprite2D" parent="Sprites"]
+z_index = 1
+position = Vector2(0, -27)
+texture = ExtResource("4_xaatp")
+
+[node name="ShadowSprite" type="Sprite2D" parent="Sprites"]
+position = Vector2(0, -11)
+texture = ExtResource("5_xb0il")
+
+[node name="LightSprite" type="Sprite2D" parent="Sprites"]
+position = Vector2(0, -9)
+texture = ExtResource("7_df2br")
+
+[connection signal="ItemReceived" from="Beam" to="." method="OnBeamItemReceived"]
