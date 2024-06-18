@@ -24,10 +24,11 @@ public partial class Oignon : Node2D
 
    private void OnArea2dBodyEntered(Node2D body)
    {
+      Object obj = (Object)body;
       // Item
-      if (body.IsInGroup("Items"))
+      if (obj.IsInGroup(E_Group.ITEM))
       {
-         Item item = (Item)body;
+         Item item = (Item)obj;
          if (!item.IsPikminFood)
             return;
 

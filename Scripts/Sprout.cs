@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class Sprout : Node2D
+public partial class Sprout : Object
 {
 	#region Components
 	private AudioStreamPlayer2D audioStream;
@@ -14,6 +14,8 @@ public partial class Sprout : Node2D
 		base._Ready();
 
 		audioStream = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+
+		AddToGroup(E_Group.SPROUT);
 	}
 
 	public void Pluck()

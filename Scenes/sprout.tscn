@@ -7,7 +7,8 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hjpj2"]
 radius = 9.21954
 
-[node name="Sprout" type="Node2D" groups=["Sprouts"]]
+[node name="Sprout" type="CharacterBody2D"]
+y_sort_enabled = true
 script = ExtResource("1_7erxj")
 
 [node name="Sprite2D" type="Sprite2D" parent="." groups=["Sprouts"]]

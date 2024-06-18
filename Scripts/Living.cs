@@ -1,9 +1,8 @@
 using Godot;
 using System;
 
-public partial class Living : CharacterBody2D
+public abstract partial class Living : Object
 {
-   protected AnimatedSprite2D sprite;
    protected bool isFacingFront = true;
 
    [Export] public int healthMax;
@@ -14,7 +13,6 @@ public partial class Living : CharacterBody2D
       base._Ready();
       healthCurrent = healthMax;
 
-      sprite = GetNode<AnimatedSprite2D>("Sprite2D");
    }
 
    public void TakeDamage(int amount)
@@ -35,17 +33,15 @@ public partial class Living : CharacterBody2D
       MoveAndSlide();
    }
 
-   protected void FlipSprite(Vector2 direction)
-   {
-      if (direction.X < 0) { sprite.FlipH = false; }
-      else if (direction.X > 0) { sprite.FlipH = true; }
-   }
 
-   protected void PlayAnimation(string animationName)
-   {
-      if (isFacingFront)
-         sprite.Play(animationName + "_front");
-      else
-         sprite.Play(animationName + "_back");
-   }
+
+   /* 
+
+     protected void PlayAnimation(string animationName)
+     {
+        if (isFacingFront)
+           sprite.Play(animationName + "_front");
+        else
+           sprite.Play(animationName + "_back");
+     }*/
 }

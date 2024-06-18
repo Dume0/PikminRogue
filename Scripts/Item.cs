@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public partial class Item : CharacterBody2D
+public partial class Item : Object
 {
    #region Components
    private NavigationAgent2D navigationAgent;
@@ -49,7 +49,7 @@ public partial class Item : CharacterBody2D
       weightLabel.Visible = true;
 
       // Add to Group
-      AddToGroup("Items");
+      AddToGroup(E_Group.ITEM);
 
       // Set Target of NavigationAgent
       navigationAgent.TargetPosition = isPikminFood ? Oignon.instance.GlobalPosition : Ship.instance.GlobalPosition;
@@ -102,6 +102,9 @@ public partial class Item : CharacterBody2D
    {
       pikminCarrying.Add(pikmin);
       Utils.SetParent(pikmin, this);
+
+      pikmin.ActivateCollision(false);
+
       pikmin.Position = pikminHandlePoints[pikminHandlePointsIndex];
       pikminHandlePointsIndex++;
 
@@ -112,7 +115,11 @@ public partial class Item : CharacterBody2D
    {
       pikminCarrying.Remove(pikmin);
       Utils.SetParent(pikmin, GetTree().Root.GetChild(0));
+
+      pikmin.ActivateCollision(true);
+
       pikminHandlePointsIndex--;
+      pikmin.GlobalPosition = pikminHandlePoints[pikminHandlePointsIndex] + GlobalPosition;
 
       UpdateWeightLabel();
    }

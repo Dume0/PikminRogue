@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba4pcvf82nx3a"]
+
+[ext_resource type="Texture2D" uid="uid://dy3vmxi052l0s" path="res://Assets/Sprites/Environnement/Vegetations/Fiddlehead.png" id="1_no5kg"]
+
+[node name="Fiddlehead" type="Sprite2D"]
+z_index = 1
+position = Vector2(1, -17)
+texture = ExtResource("1_no5kg")

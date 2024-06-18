@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://o8lxyvqbpx0b"]
+
+[ext_resource type="Texture2D" uid="uid://blfq13dt1gibw" path="res://Assets/Sprites/Environnement/Vegetations/pellet_posy.png" id="1_g215f"]
+
+[node name="Pellet" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -17)
+texture = ExtResource("1_g215f")

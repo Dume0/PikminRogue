@@ -1,0 +1,4 @@
+- Give blue pikmins a boost when it's raining (more speed or more attack)
+- Poison make debuff pikmin a long time after being exposed to it (decreased mobility and attack), it go away naturally after 2min or if using spray.
+- Fire hazard can't be destroyed, and inflammed pikmin will run away a lot and will lose their flowers and buds.
+- Electricity insta-kill

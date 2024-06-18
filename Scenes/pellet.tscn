@@ -1,19 +1,22 @@
 [gd_scene load_steps=4 format=3 uid="uid://bdv5sqoayriis"]
 
 [ext_resource type="Script" path="res://Scripts/Item.cs" id="1_4bd31"]
-[ext_resource type="Texture2D" uid="uid://b87eelefqm73y" path="res://Assets/Sprites/V1/Palet.png" id="1_rxr3d"]
+[ext_resource type="Texture2D" uid="uid://cu0dqncnsm77j" path="res://Assets/Sprites/Environnement/Vegetations/pellet.png" id="2_i5y13"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fy0jl"]
-radius = 3.0
+radius = 5.0
 
 [node name="Palet" type="CharacterBody2D"]
+y_sort_enabled = true
+collision_layer = 256
+collision_mask = 265
 script = ExtResource("1_4bd31")
 isPikminFood = true
 movementSpeed = 10.0
 value = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_rxr3d")
+texture = ExtResource("2_i5y13")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_fy0jl")

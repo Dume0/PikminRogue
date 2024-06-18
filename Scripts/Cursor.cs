@@ -97,12 +97,12 @@ public partial class Cursor : Sprite2D
 
 	private void OnAreaStay()
 	{
-		foreach (Node2D body in area2D.GetOverlappingBodies())
+		foreach (Area2D area in area2D.GetOverlappingAreas())
 		{
 			// Pikmin
-			if (body.IsInGroup("Pikmins"))
+			if (area.IsInGroup(Group.E_GroupToString(E_Group.PIKMIN)))
 			{
-				Pikmin pikmin = (Pikmin)body;
+				Pikmin pikmin = (Pikmin)area.GetParent();
 				pikmin.FollowPlayer();
 			}
 		}

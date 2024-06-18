@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq1hw5le3jvtf"]
+
+[ext_resource type="Script" path="res://Scripts/UI/PikminCount.cs" id="1_any3q"]
+[ext_resource type="Texture2D" uid="uid://c2706sg7k3xnv" path="res://Assets/Sprites/UI/PikminCount.png" id="3_b1lcd"]
+[ext_resource type="FontFile" uid="uid://bw5naaedq5aqe" path="res://Assets/Fonts/DePixelHalbfett.ttf" id="3_hy054"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_w3wwr"]
+font = ExtResource("3_hy054")
+font_size = 6
+
+[node name="PikminCount" type="PanelContainer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -46.0
+offset_top = -20.0
+offset_right = -9.0
+offset_bottom = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("1_any3q")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 2
+texture = ExtResource("3_b1lcd")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="Count" type="Label" parent="CenterContainer"]
+z_index = 1
+layout_mode = 2
+text = "0 / 0"
+label_settings = SubResource("LabelSettings_w3wwr")
+horizontal_alignment = 1
+vertical_alignment = 1

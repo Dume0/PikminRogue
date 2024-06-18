@@ -29,11 +29,10 @@ public enum E_PikminGrowth
 	FLOWER
 }
 
-public abstract partial class Pikmin : Living
+public abstract partial class Pikmin : Creature
 {
 	#region Components
-	Sprite2D shadowSprite;
-	CollisionShape2D collider;
+	AnimatedSprite2D sprite;
 	NavigationAgent2D navigationAgent;
 	AudioStreamPlayer2D throwedAudioStream;
 	GpuParticles2D dustParticles;
@@ -65,13 +64,15 @@ public abstract partial class Pikmin : Living
 	{
 		base._Ready();
 
-		shadowSprite = GetNode<Sprite2D>("ShadowSprite2D");
-		collider = GetNode<CollisionShape2D>("CollisionShape2D");
+		sprite = GetNode<AnimatedSprite2D>("Sprite2D");
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		throwedAudioStream = GetNode<AudioStreamPlayer2D>("ThrowedAudioStreamPlayer2D");
 		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
 		throwParticles = sprite.GetNode<GpuParticles2D>("ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
+		creatureArea.AddToGroup(Group.E_GroupToString(E_Group.PIKMIN));
+
+		AddToGroup(E_Group.PIKMIN);
 	}
 
 	public override void _Process(double delta)
@@ -106,14 +107,25 @@ public abstract partial class Pikmin : Living
 
 	private void DoNextActionWhenIdling()
 	{
-		foreach (Node2D body in actionArea.GetOverlappingBodies())
+		foreach (Object body in actionArea.GetOverlappingBodies())
 		{
 			// Item
-			if (body.IsInGroup("Items"))
+			if (body.IsInGroup(E_Group.ITEM))
 			{
 				CarryItem((Item)body);
 			}
+			// Creature
+			if (body.IsInGroup(E_Group.CREATURE) && !body.IsInGroup(E_Group.PIKMIN))
+			{
+				FightCreature((Creature)body);
+			}
 		}
+	}
+
+	protected void FlipSprite(Vector2 direction)
+	{
+		if (direction.X < 0) { sprite.FlipH = true; }
+		else if (direction.X > 0) { sprite.FlipH = false; }
 	}
 
 	private void Move(Vector2 target)
@@ -151,6 +163,9 @@ public abstract partial class Pikmin : Living
 		throwedVelocity = velocity;
 		throwedGravity = gravity;
 		throwedDistance = distance;
+
+		// Deactivate collision
+		shadowCollider.Visible = false;
 	}
 
 	private void ThrowUpdate()
@@ -172,6 +187,13 @@ public abstract partial class Pikmin : Living
 		throwedVelocity.Y += throwedGravity;
 		verticalPosition += throwedVelocity.Y;
 
+		// Find an ennemy
+		if (GetCreatureInCollision() != null)
+		{
+			if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
+				GD.Print(GetCreatureInCollision().Name);
+		}
+
 		// End condition
 		if (sprite.Position.Y >= 0)
 		{
@@ -192,6 +214,9 @@ public abstract partial class Pikmin : Living
 		// Particles
 		dustParticles.Emitting = true;
 		throwParticles.Emitting = false;
+
+		// Reactivate collision
+		shadowCollider.Visible = true;
 	}
 	#endregion
 
@@ -219,17 +244,23 @@ public abstract partial class Pikmin : Living
 	}
 	#endregion
 
+	#region Fight
+	private void FightCreature(Creature creature)
+	{
+		state = E_PikminState.FIGHTING;
+	}
+	#endregion
 	public void FollowPlayer()
 	{
-		if (state == E_PikminState.FOLLOWING_CAPTAIN || state == E_PikminState.THROWED || IsInGroup("PikminGrabed"))
+		if (state == E_PikminState.FOLLOWING_CAPTAIN || state == E_PikminState.THROWED || IsInGroup(E_Group.PIKMIN_GRABED))
 			return;
 
 		EndCarryItem();
 
-		AddToGroup("PikminsFollowingCaptain");
+		AddToGroup(E_Group.PIKMIN_FOLLOWING_CAPTAIN);
 		navigationAgent.TargetPosition = Player.instance.PikminFollowPoint.GlobalPosition;
 		state = E_PikminState.FOLLOWING_CAPTAIN;
-		control.instance.UpdatePikminCount();
+		PikminCount.instance.UpdatePikminCount();
 
 	}
 
@@ -238,7 +269,7 @@ public abstract partial class Pikmin : Living
 		if (state != E_PikminState.FOLLOWING_CAPTAIN)
 			return;
 
-		RemoveFromGroup("PikminsFollowingCaptain");
+		RemoveFromGroup(E_Group.PIKMIN_FOLLOWING_CAPTAIN);
 		navigationAgent.TargetPosition = Vector2.Zero;
 		state = E_PikminState.IDLE;
 	}
@@ -249,8 +280,13 @@ public abstract partial class Pikmin : Living
 			return;
 
 		StopFollowPlayer();
-		AddToGroup("PikminGrabed");
+		AddToGroup(E_Group.PIKMIN_GRABED);
 		state = E_PikminState.GRABED;
+	}
+
+	public void ActivateCollision(bool activate)
+	{
+		shadowCollider.Disabled = !activate;
 	}
 
 	private void AnimationManager()
@@ -262,6 +298,7 @@ public abstract partial class Pikmin : Living
 				break;
 			case E_PikminState.MOVING_TO_ITEM:
 			case E_PikminState.CARRYING:
+			case E_PikminState.FIGHTING:
 			case E_PikminState.GRABED:
 			case E_PikminState.FOLLOWING_CAPTAIN:
 				sprite.Play("idle");
@@ -291,7 +328,7 @@ public abstract partial class Pikmin : Living
 
 	private void OnDestroy()
 	{
-		control.instance.UpdatePikminCount();
+		PikminCount.instance.UpdatePikminCount();
 	}
 	#endregion
 }

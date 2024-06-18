@@ -8,6 +8,8 @@ public partial class Player : Living
 	public static Player instance;
 
 	#region Components
+	private Sprite2D sprite;
+	private AnimationPlayer animationPlayer;
 	private AudioStreamPlayer2D whistlingSound;
 	private AudioStreamPlayer2D walkingSound;
 	private RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
@@ -16,6 +18,7 @@ public partial class Player : Living
 	#endregion
 
 	private Vector2 direction = new Vector2();
+	[Export] public float movementSpeed = 100.0f;
 
 	[ExportGroup("Whistle")]
 	private float whistleRadius = 12; public float WhistleRadius { get { return whistleRadius; } private set { } }
@@ -23,20 +26,21 @@ public partial class Player : Living
 	[Export] private float whistleMaxRadius = 50; public float WhistleMaxRadius { get { return whistleMaxRadius; } private set { } }
 	[Export] private float whistleMinRadius = 12; public float WhistleMinRadius { get { return whistleMinRadius; } private set { } }
 
-	[Export] public float movementSpeed = 100.0f;
 
+	[ExportGroup("Throw")]
 	private Pikmin grabedPikmin;
 
 	#region States
 	public bool isWalking = false; public bool IsWalking { get { return isWalking; } private set { } }
 	public bool isWhistling = false; public bool IsWhistling { get { return isWhistling; } private set { } }
 	public bool isGrabing = false; public bool IsGrabing { get { return isGrabing; } private set { } }
+	[Export] public bool isThrowing = false; public bool IsThrowing { get { return isThrowing; } private set { } }
+	[Export] private bool isPlayingThrowAnimation = false;
+
 	#endregion
 	private bool canPlayWalkingSound = true;
-
 	private List<Pikmin> pikmins;
 
-	[ExportGroup("Throw")]
 	[Export] float throwSpeed = 10f;
 	[Export] bool throwLobAngle = true;
 	[Export] float throwGravity = 0.5f;
@@ -48,11 +52,13 @@ public partial class Player : Living
 		base._Ready();
 		if (instance == null) { instance = this; } else { GD.PrintErr("Two or more instance of this object are presents"); } // Singleton
 
+		sprite = GetNode<Sprite2D>("Sprite2D");
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		whistlingSound = GetNode<AudioStreamPlayer2D>("WhistlingSound");
 		walkingSound = GetNode<AudioStreamPlayer2D>("WalkingSound");
 		pikminFollowPoint = GetNode<RigidBody2D>("PikminFollowPoint");
 		grabPikminArea = GetNode<Area2D>("GrabPikminArea2D");
-		grabPikminPoint = GetNode<Node2D>("GrabPikminPoint");
+		grabPikminPoint = GetNode<Node2D>("Sprite2D/GrabPikminPoint");
 
 		whistleRadius = whistleMinRadius;
 	}
@@ -62,6 +68,7 @@ public partial class Player : Living
 		ReadInput();
 		AnimationManager();
 		QueueRedraw();
+		//DebugStates();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -121,6 +128,11 @@ public partial class Player : Living
 	}
 	#endregion
 
+	protected void FlipSprite(Vector2 direction)
+	{
+		if (direction.X < 0) { sprite.Scale = new Vector2(-1, 1); }
+		else if (direction.X > 0) { sprite.Scale = Vector2.One; }
+	}
 	private void ReadInput()
 	{
 		// Get inputs
@@ -131,8 +143,8 @@ public partial class Player : Living
 		else { isWalking = false; }
 
 		// Flip sprite
-		if (direction.Y < 0) { isFacingFront = false; }
-		else if (direction.Y > 0) { isFacingFront = true; }
+		//if (direction.Y < 0) { isFacingFront = false; }
+		//else if (direction.Y > 0) { isFacingFront = true; }
 		FlipSprite(direction);
 
 		// Whistle
@@ -205,10 +217,10 @@ public partial class Player : Living
 			return;
 
 		// Itere sur tous les elements à portée de grab
-		foreach (Node2D body in grabPikminArea.GetOverlappingBodies())
+		foreach (Object body in grabPikminArea.GetOverlappingBodies())
 		{
-			// Verifie si l'élément est un Pikmin
-			if (!body.IsInGroup("PikminsFollowingCaptain"))
+			// Verifie si l'élément est un Pikmin suivant le capitaine
+			if (!body.IsInGroup(E_Group.PIKMIN_FOLLOWING_CAPTAIN))
 				continue;
 
 			grabedPikmin = (Pikmin)body;
@@ -250,7 +262,7 @@ public partial class Player : Living
 
 		grabedPikmin.GlobalPosition = GlobalPosition;
 
-		grabedPikmin.RemoveFromGroup("PikminGrabed");
+		grabedPikmin.RemoveFromGroup(E_Group.PIKMIN_GRABED);
 
 		Vector2 offsetCaptain = Position - GlobalPosition;
 		Vector2 offsetCursor = Cursor.instance.Position - GlobalPosition;
@@ -262,9 +274,10 @@ public partial class Player : Living
 		grabedPikmin.Throwed(velocity, throwGravity, distance);
 
 		isGrabing = false;
+		isThrowing = true;
 		grabedPikmin = null;
 
-		control.instance.UpdatePikminCount();
+		PikminCount.instance.UpdatePikminCount();
 	}
 	#endregion
 
@@ -278,7 +291,7 @@ public partial class Player : Living
 		foreach (Node2D body in grabPikminArea.GetOverlappingAreas())
 		{
 			// Verifie si l'élément est une pousse
-			if (!body.IsInGroup("Sprouts"))
+			if (!body.IsInGroup(Group.E_GroupToString(E_Group.SPROUT)))
 				continue;
 
 			Sprout sprout = (Sprout)body.GetParent();
@@ -293,14 +306,29 @@ public partial class Player : Living
 	//////////////////////
 	private void AnimationManager()
 	{
-		if (isWhistling && !isWalking)
-			PlayAnimation("whistling");
+		if (isPlayingThrowAnimation)
+			return;
+
+		if (isGrabing && !isWalking)
+			animationPlayer.Play("grab");
+		else if (isGrabing && isWalking)
+			animationPlayer.Play("grab_walk");
+		else if (isWhistling && !isWalking)
+			animationPlayer.Play("whistle");
 		else if (isWhistling && isWalking)
-			PlayAnimation("whistling_walk");
+			animationPlayer.Play("whistle_walk");
 		else if (isWalking)
-			PlayAnimation("walk");
+			animationPlayer.Play("walk");
 		else if (!isWalking)
-			PlayAnimation("idle");
+			animationPlayer.Play("idle");
+
+
+
+		if (isThrowing && !isPlayingThrowAnimation)
+		{
+			animationPlayer.Play("throw");
+			isPlayingThrowAnimation = true;
+		}
 	}
 
 	public void AddPikminToGroup(Pikmin pikmin)
@@ -311,5 +339,10 @@ public partial class Player : Living
 	private void OnWalkingSoundFinished()
 	{
 		canPlayWalkingSound = true;
+	}
+
+	private void DebugStates()
+	{
+		GD.Print("isThrowing " + isThrowing);
 	}
 }

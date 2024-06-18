@@ -7,6 +7,7 @@
 radius = 7.07107
 
 [node name="Oignon" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_m8x2d")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
