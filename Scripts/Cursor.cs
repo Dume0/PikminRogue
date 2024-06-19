@@ -102,7 +102,7 @@ public partial class Cursor : Sprite2D
 			// Pikmin
 			if (area.IsInGroup(Group.E_GroupToString(E_Group.PIKMIN)))
 			{
-				Pikmin pikmin = (Pikmin)area.GetParent();
+				Pikmin pikmin = (Pikmin)area.GetParent().GetParent();
 				pikmin.FollowPlayer();
 			}
 		}

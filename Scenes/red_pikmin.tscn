@@ -1,66 +1,10 @@
-[gd_scene load_steps=31 format=3 uid="uid://cvnbuxguy7kwl"]
+[gd_scene load_steps=28 format=3 uid="uid://cvnbuxguy7kwl"]
 
 [ext_resource type="Script" path="res://Scripts/Pikmins/RedPikmin.cs" id="1_ast0f"]
-[ext_resource type="Texture2D" uid="uid://ctyl28vvf1xwh" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_idle.png" id="2_nqskv"]
-[ext_resource type="Texture2D" uid="uid://bxh2vvq4sxnf6" path="res://Assets/Sprites/V1/Pikmin/pikmin_throwed.png" id="3_a2vgu"]
+[ext_resource type="Texture2D" uid="uid://dh6r7l5cs1yvf" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_spritesheet.png" id="2_rdm7o"]
 [ext_resource type="AudioStream" uid="uid://ba8x3eefqdgal" path="res://Assets/Sounds/Pikmin/throw.wav" id="4_42bsr"]
 [ext_resource type="Texture2D" uid="uid://dx1x4rdsciowk" path="res://Assets/Sprites/Pikmin/pikmin_shadow.png" id="4_526pl"]
 [ext_resource type="Texture2D" uid="uid://d0kj2jm6m4wac" path="res://Assets/Sprites/V1/Pikmin/dust_particles.png" id="5_4g6nf"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_21po5"]
-atlas = ExtResource("2_nqskv")
-region = Rect2(0, 0, 8, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fq6k0"]
-atlas = ExtResource("2_nqskv")
-region = Rect2(8, 0, 8, 10)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_18bfc"]
-atlas = ExtResource("3_a2vgu")
-region = Rect2(0, 0, 15, 14)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3mwv3"]
-atlas = ExtResource("3_a2vgu")
-region = Rect2(15, 0, 15, 14)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hnuck"]
-atlas = ExtResource("3_a2vgu")
-region = Rect2(30, 0, 15, 14)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qaf2i"]
-atlas = ExtResource("3_a2vgu")
-region = Rect2(45, 0, 15, 14)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_876n5"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_21po5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fq6k0")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 2.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_18bfc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3mwv3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hnuck")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qaf2i")
-}],
-"loop": true,
-"name": &"throwed",
-"speed": 10.0
-}]
 
 [sub_resource type="Curve" id="Curve_mi2yh"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.634146, 0.67033), -1.8022, -1.8022, 0, 0, Vector2(0.993902, 0.010989), 0.0, 0.0, 0, 0]
@@ -83,6 +27,9 @@ colors = PackedColorArray(1, 1, 1, 0.482353, 1, 1, 1, 0.431373)
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_sk6vf"]
 gradient = SubResource("Gradient_avhgr")
 width = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcigy"]
+size = Vector2(5, 7)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdt1v"]
 radius = 1.0
@@ -132,12 +79,96 @@ anim_offset_max = 1.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_06m7s"]
 radius = 20.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lcigy"]
-size = Vector2(5, 7)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q8wb1"]
 radius = 2.0
 height = 7.0
+
+[sub_resource type="Animation" id="Animation_3gbeu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_oeinq"]
+resource_name = "fight"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [4, 5]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"EmitInflictDamage"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_okxcu"]
+resource_name = "idle"
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_77g7f"]
+resource_name = "throwed"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [8, 9, 10, 11]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d4kia"]
+_data = {
+"RESET": SubResource("Animation_3gbeu"),
+"fight": SubResource("Animation_oeinq"),
+"idle": SubResource("Animation_okxcu"),
+"throwed": SubResource("Animation_77g7f")
+}
 
 [node name="RedPikmin" type="CharacterBody2D"]
 z_index = 1
@@ -150,12 +181,11 @@ avoidance_enabled = true
 radius = 2.0
 debug_enabled = true
 
-[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(-1.5, -5)
-sprite_frames = SubResource("SpriteFrames_876n5")
-animation = &"idle"
-autoplay = "idle"
-frame_progress = 0.889885
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -4)
+texture = ExtResource("2_rdm7o")
+hframes = 4
+vframes = 3
 
 [node name="ThrowParticles2D" type="GPUParticles2D" parent="Sprite2D"]
 position = Vector2(-1, 0)
@@ -164,6 +194,14 @@ amount = 100
 process_material = SubResource("ParticleProcessMaterial_um0y5")
 texture = SubResource("GradientTexture1D_sk6vf")
 lifetime = 0.3
+
+[node name="CreatureArea2D" type="Area2D" parent="Sprite2D"]
+position = Vector2(1.5, 0)
+collision_mask = 271
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CreatureArea2D"]
+position = Vector2(0.5, 1.5)
+shape = SubResource("RectangleShape2D_lcigy")
 
 [node name="Shadow" type="Node2D" parent="."]
 
@@ -196,14 +234,6 @@ collision_mask = 271
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ActionArea2D"]
 shape = SubResource("CircleShape2D_06m7s")
 
-[node name="CreatureArea2D" type="Area2D" parent="."]
-position = Vector2(0, -5)
-collision_mask = 271
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CreatureArea2D"]
-position = Vector2(0.5, 1.5)
-shape = SubResource("RectangleShape2D_lcigy")
-
 [node name="ShadowArea2D" type="Area2D" parent="."]
 position = Vector2(-1, -6)
 collision_mask = 271
@@ -212,6 +242,12 @@ collision_mask = 271
 position = Vector2(0.5, 6)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_q8wb1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_d4kia")
+}
+autoplay = "idle"
 
 [connection signal="tree_exiting" from="." to="." method="OnDestroy"]
 [connection signal="target_reached" from="NavigationAgent2D" to="." method="OnNavigationAgent2dTargetReached"]

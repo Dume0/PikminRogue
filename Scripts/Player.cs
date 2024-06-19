@@ -166,11 +166,7 @@ public partial class Player : Living
 
 	private void Move()
 	{
-		Vector2 velocity = this.Velocity;
-
-		// Velocity
-		velocity.X = this.direction.X != 0 ? this.direction.X * this.movementSpeed : Mathf.MoveToward(velocity.X, 0, this.movementSpeed);
-		velocity.Y = this.direction.Y != 0 ? this.direction.Y * this.movementSpeed : Mathf.MoveToward(velocity.Y, 0, this.movementSpeed);
+		Vector2 velocity = MoveToward(this.direction, this.movementSpeed, true);
 
 		// Play Sound
 		if (velocity != Vector2.Zero && canPlayWalkingSound)
@@ -183,8 +179,6 @@ public partial class Player : Living
 			walkingSound.Playing = false;
 			canPlayWalkingSound = true;
 		}
-
-		ApplyVelocity(velocity);
 	}
 
 	//////// Actions ///////////

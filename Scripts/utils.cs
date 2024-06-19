@@ -8,4 +8,11 @@ public static class Utils
       obj.GetParent().RemoveChild(obj);
       newParent.AddChild(obj);
    }
+
+   public static double GetRandomNumber(double minimum, double maximum)
+   {
+      Random random = new Random();
+      return random.NextDouble() * (maximum - minimum) + minimum;
+   }
+
 }

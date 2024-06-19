@@ -32,7 +32,7 @@ public partial class Item : Object
    private List<Vector2> pikminHandlePoints = new List<Vector2>();
    private int pikminHandlePointsIndex = 0;
 
-   [Export] public bool HasEndTowed;
+   [Signal] public delegate void EndedTowEventHandler();
 
    public override void _Ready()
    {
@@ -55,6 +55,13 @@ public partial class Item : Object
 
       // Add to Group
       AddToGroup(E_Group.ITEM);
+
+      // Set Layers
+      SetCollisionLayerValue(1, false);
+      SetCollisionLayerValue(9, true);
+      SetCollisionMaskValue(1, true);
+      SetCollisionMaskValue(4, true);
+      SetCollisionMaskValue(9, true);
 
       // Set Target of NavigationAgent
       navigationAgent.TargetPosition = isPikminFood ? Onion.instance.Beam.ItemTarget : Ship.instance.Beam.ItemTarget;
@@ -99,8 +106,14 @@ public partial class Item : Object
    {
       for (int i = pikminCarrying.Count - 1; i >= 0; i--)
       {
-         RemovePikminFromGroup(pikminCarrying[i]);
+         pikminCarrying[i].EndCarryItem();
       }
+   }
+
+   public void Destroy()
+   {
+      FreeAllPikmin();
+      QueueFree();
    }
 
    public void AddPikminToGroup(Pikmin pikmin)
@@ -119,22 +132,27 @@ public partial class Item : Object
       UpdateWeightLabel();
    }
 
-   public void PlayTowedAnimation()
-   {
-      animationPlayer.Play("Towed");
-   }
-
    public void RemovePikminFromGroup(Pikmin pikmin)
    {
       pikminCarrying.Remove(pikmin);
       Utils.SetParent(pikmin, GetTree().Root.GetChild(0));
 
-      pikmin.ActivateCollision(true);
+      pikmin.CallDeferred("ActivateCollision", true); //ActivateCollision(true);
 
       pikminHandlePointsIndex--;
       pikmin.GlobalPosition = pikminHandlePoints[pikminHandlePointsIndex] + GlobalPosition;
 
       UpdateWeightLabel();
+   }
+
+   public void EmitEndedTow()
+   {
+      EmitSignal(SignalName.EndedTow);
+   }
+
+   public void PlayTowedAnimation()
+   {
+      animationPlayer.Play("Towed");
    }
 
    public void UpdateWeightLabel()

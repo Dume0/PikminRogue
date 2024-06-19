@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://cvnbuxguy7kwl" path="res://Scenes/red_pikmin.tscn" id="3_185c5"]
 [ext_resource type="Texture2D" uid="uid://dbs3khgocfqwk" path="res://Assets/Sprites/V1/whistle_point.png" id="4_5opxt"]
 [ext_resource type="PackedScene" uid="uid://b1u1ixnj0do56" path="res://Scenes/game_manager.tscn" id="5_ki41k"]
-[ext_resource type="PackedScene" uid="uid://ca383ykbhttqs" path="res://Scenes/UI/control.tscn" id="6_rbuev"]
 [ext_resource type="PackedScene" uid="uid://4v4cgb0w1d44" path="res://Scenes/cursor.tscn" id="6_ygseq"]
 [ext_resource type="Texture2D" uid="uid://bqn80va4uitxi" path="res://Assets/Sprites/Environnement/Dirt/Ground.png" id="8_n3vye"]
 [ext_resource type="PackedScene" uid="uid://dvxjux1kqpm0j" path="res://Scenes/Vehicules/ship.tscn" id="9_pvdjk"]
@@ -15,6 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://ba4pcvf82nx3a" path="res://Scenes/Vegetations/fiddlehead.tscn" id="13_ctbtl"]
 [ext_resource type="PackedScene" uid="uid://o8lxyvqbpx0b" path="res://Scenes/Vegetations/pellet_posy.tscn" id="14_dok58"]
 [ext_resource type="PackedScene" uid="uid://yklqatmjf8gh" path="res://Scenes/Ennemies/dwarf_bulborb.tscn" id="15_jlb86"]
+[ext_resource type="PackedScene" uid="uid://dnrc0uy5nbvc1" path="res://Scenes/UI/ui.tscn" id="15_qoh33"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ayk3q"]
 
@@ -4523,12 +4523,6 @@ throwGravity = 0.8
 [node name="Camera2D" type="Camera2D" parent="Olimar"]
 zoom = Vector2(2, 2)
 
-[node name="Control" parent="Olimar/Camera2D" instance=ExtResource("6_rbuev")]
-offset_left = 118.0
-offset_top = 71.0
-offset_right = 118.0
-offset_bottom = 71.0
-
 [node name="PikminFollowPoint" type="RigidBody2D" parent="Olimar"]
 position = Vector2(0, 10)
 inertia = 1.0
@@ -4614,3 +4608,5 @@ position = Vector2(-34, 43)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0r6ot")
 camera_attributes = SubResource("CameraAttributesPractical_m8ank")
+
+[node name="UI" parent="." instance=ExtResource("15_qoh33")]

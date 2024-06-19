@@ -4,6 +4,7 @@ using System;
 public abstract partial class Creature : Living
 {
    #region Components
+   protected Sprite2D sprite;
    protected CollisionShape2D shadowCollider;
    protected Area2D shadowArea;
    protected Sprite2D shadowSprite;
@@ -14,10 +15,12 @@ public abstract partial class Creature : Living
    {
       base._Ready();
 
+      sprite = GetNode<Sprite2D>("Sprite2D");
       shadowCollider = GetNode<CollisionShape2D>("ShadowCollision2D");
       shadowArea = GetNode<Area2D>("ShadowArea2D");
       shadowSprite = GetNode<Sprite2D>("ShadowSprite2D");
-      creatureArea = GetNode<Area2D>("CreatureArea2D");
+      creatureArea = GetNode<Area2D>("Sprite2D/CreatureArea2D");
+      creatureArea.AddToGroup(Group.E_GroupToString(E_Group.CREATURE));
 
       AddToGroup(E_Group.CREATURE);
    }
@@ -32,10 +35,10 @@ public abstract partial class Creature : Living
       Creature creature = null;
 
       // CreatureArea
-      foreach (Object body in creatureArea.GetOverlappingBodies())
+      foreach (Area2D area in creatureArea.GetOverlappingAreas())
       {
-         if (body.IsInGroup(E_Group.CREATURE) && body != this)
-            creature = (Creature)body;
+         if (area.IsInGroup(Group.E_GroupToString(E_Group.CREATURE)) && area != creatureArea)
+            creature = (Creature)area.GetParent().GetParent();
       }
       if (creature == null)
          return null;
@@ -47,5 +50,29 @@ public abstract partial class Creature : Living
             return creature;
       }
       return null;
+   }
+
+   public virtual void FallToTheGround()
+   {
+      if (sprite.Position.Y >= 0)
+         return;
+   }
+
+   protected override void Death()
+   {
+      base.Death();
+
+      foreach (Node node in GetChildren())
+      {
+         if (node.IsInGroup(Group.E_GroupToString(E_Group.PIKMIN)))
+         {
+            Utils.SetParent(node, GetTree().Root.GetChild(0));
+         }
+      }
+   }
+
+   public void OnDamageReceived()
+   {
+      TakeDamage(1);
    }
 }

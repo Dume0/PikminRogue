@@ -32,12 +32,12 @@ public enum E_PikminGrowth
 public abstract partial class Pikmin : Creature
 {
 	#region Components
-	AnimatedSprite2D sprite;
 	NavigationAgent2D navigationAgent;
 	AudioStreamPlayer2D throwedAudioStream;
 	GpuParticles2D dustParticles;
 	GpuParticles2D throwParticles;
 	Area2D actionArea;
+	AnimationPlayer animationPlayer;
 	#endregion
 
 	#region Enums
@@ -46,6 +46,7 @@ public abstract partial class Pikmin : Creature
 	private E_PikminGrowth growth = E_PikminGrowth.LEAF; public E_PikminGrowth Growth { get { return growth; } private set { } }
 	#endregion
 
+	[Signal] public delegate void InflictDamageEventHandler();
 	[Export] public float movementSpeed = 50.0f;
 
 	private float verticalPosition = 0;
@@ -63,11 +64,11 @@ public abstract partial class Pikmin : Creature
 	{
 		base._Ready();
 
-		sprite = GetNode<AnimatedSprite2D>("Sprite2D");
+		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		throwedAudioStream = GetNode<AudioStreamPlayer2D>("ThrowedAudioStreamPlayer2D");
 		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
-		throwParticles = sprite.GetNode<GpuParticles2D>("ThrowParticles2D");
+		throwParticles = GetNode<GpuParticles2D>("Sprite2D/ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
 		creatureArea.AddToGroup(Group.E_GroupToString(E_Group.PIKMIN));
 
@@ -188,12 +189,12 @@ public abstract partial class Pikmin : Creature
 		verticalPosition += throwedVelocity.Y;
 
 		// Find an ennemy
-		/*	if (GetCreatureInCollision() != null)
-			{
-				if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
-					GD.Print(GetCreatureInCollision().Name);
-			}
-	*/
+		if (GetCreatureInCollision() != null)
+		{
+			if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
+				FightCreature(GetCreatureInCollision());
+		}
+
 		// End condition
 		if (sprite.Position.Y >= 0)
 		{
@@ -218,6 +219,11 @@ public abstract partial class Pikmin : Creature
 		// Reactivate collision
 		shadowCollider.Visible = true;
 	}
+
+	public override void FallToTheGround()
+	{
+		base.FallToTheGround();
+	}
 	#endregion
 
 	#region Carry
@@ -232,9 +238,9 @@ public abstract partial class Pikmin : Creature
 		itemCarried = item;
 	}
 
-	private void EndCarryItem()
+	public void EndCarryItem()
 	{
-		if (state != E_PikminState.CARRYING)
+		if (state != E_PikminState.CARRYING || itemCarried == null)
 			return;
 
 		state = E_PikminState.IDLE;
@@ -247,7 +253,15 @@ public abstract partial class Pikmin : Creature
 	#region Fight
 	private void FightCreature(Creature creature)
 	{
+		if (state == E_PikminState.FIGHTING)
+			return;
+
 		state = E_PikminState.FIGHTING;
+
+		GlobalPosition -= creature.GlobalPosition;
+		Utils.SetParent(this, creature);
+
+		InflictDamage += creature.OnDamageReceived;
 	}
 	#endregion
 	public void FollowPlayer()
@@ -262,6 +276,11 @@ public abstract partial class Pikmin : Creature
 		state = E_PikminState.FOLLOWING_CAPTAIN;
 		PikminCount.instance.UpdatePikminCount();
 
+	}
+
+	private void EmitInflictDamage()
+	{
+		EmitSignal(SignalName.InflictDamage);
 	}
 
 	public void StopFollowPlayer()
@@ -289,17 +308,19 @@ public abstract partial class Pikmin : Creature
 		switch (state)
 		{
 			case E_PikminState.IDLE:
-				sprite.Play("idle");
+				animationPlayer.Play("idle");
 				break;
 			case E_PikminState.MOVING_TO_ITEM:
 			case E_PikminState.CARRYING:
-			case E_PikminState.FIGHTING:
 			case E_PikminState.GRABED:
 			case E_PikminState.FOLLOWING_CAPTAIN:
-				sprite.Play("idle");
+				animationPlayer.Play("idle");
 				break;
 			case E_PikminState.THROWED:
-				sprite.Play("throwed");
+				animationPlayer.Play("throwed");
+				break;
+			case E_PikminState.FIGHTING:
+				animationPlayer.Play("fight");
 				break;
 			default:
 				GD.PushError("Pikmin AnimationManager : default case reached");

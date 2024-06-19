@@ -1,29 +1,75 @@
-[gd_scene load_steps=7 format=3 uid="uid://yklqatmjf8gh"]
+[gd_scene load_steps=10 format=3 uid="uid://yklqatmjf8gh"]
 
 [ext_resource type="Script" path="res://Scripts/Ennemies/DwarfBulborb.cs" id="1_sberu"]
 [ext_resource type="Texture2D" uid="uid://bbyrj7sac57yw" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle.png" id="2_0m2j3"]
 [ext_resource type="Texture2D" uid="uid://dew4234txf4iy" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle_shadow.png" id="3_i3t23"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_67wdj"]
+size = Vector2(11, 14)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f5sv5"]
 radius = 2.0
 height = 12.0
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_67wdj"]
-size = Vector2(11, 14)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u3tvw"]
 radius = 1.0
 height = 8.0
 
+[sub_resource type="Animation" id="Animation_ctliw"]
+resource_name = "Idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_3aw5q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_a3xgb"]
+_data = {
+"Idle": SubResource("Animation_ctliw"),
+"RESET": SubResource("Animation_3aw5q")
+}
+
 [node name="DwarfBulborb" type="CharacterBody2D"]
 y_sort_enabled = true
 position = Vector2(3, -5)
 collision_layer = 4
-collision_mask = 15
+collision_mask = 271
 script = ExtResource("1_sberu")
+healthMax = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_0m2j3")
+hframes = 3
+
+[node name="CreatureArea2D" type="Area2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CreatureArea2D"]
+position = Vector2(-1, -1)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_67wdj")
 
 [node name="ShadowArea2D" type="Area2D" parent="."]
 
@@ -31,13 +77,6 @@ texture = ExtResource("2_0m2j3")
 position = Vector2(-2, 6)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_f5sv5")
-
-[node name="CreatureArea2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CreatureArea2D"]
-position = Vector2(-1, -1)
-rotation = 1.5708
-shape = SubResource("RectangleShape2D_67wdj")
 
 [node name="ShadowCollision2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 6)
@@ -47,3 +86,9 @@ shape = SubResource("CapsuleShape2D_u3tvw")
 [node name="ShadowSprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2, 7)
 texture = ExtResource("3_i3t23")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_a3xgb")
+}
+autoplay = "Idle"

@@ -81,11 +81,12 @@ _data = {
 }
 
 [node name="Beam" type="Node2D"]
+y_sort_enabled = true
 position = Vector2(0, 14.2477)
 script = ExtResource("1_6q3vr")
 
 [node name="Sprite2D" type="AnimatedSprite2D" parent="."]
-z_index = 2
+z_index = 1
 sprite_frames = SubResource("SpriteFrames_bhdkt")
 autoplay = "default"
 frame_progress = 0.609586

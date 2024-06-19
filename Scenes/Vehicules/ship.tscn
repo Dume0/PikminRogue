@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dvxjux1kqpm0j"]
+[gd_scene load_steps=11 format=3 uid="uid://dvxjux1kqpm0j"]
 
 [ext_resource type="Script" path="res://Scripts/Vehicules/Ship.cs" id="1_7nxyt"]
 [ext_resource type="Texture2D" uid="uid://bo03ckkaihpom" path="res://Assets/Sprites/Vehicules/Ship/ship_idle.png" id="2_v4wup"]
 [ext_resource type="Texture2D" uid="uid://cqpj8jiuijp6h" path="res://Assets/Sprites/Vehicules/Ship/ship_light.png" id="3_tetf4"]
 [ext_resource type="PackedScene" uid="uid://cy3q4yalqdc8c" path="res://Scenes/Vehicules/beam.tscn" id="4_wl646"]
+[ext_resource type="AudioStream" uid="uid://ducmmfrrli3br" path="res://Assets/Sounds/Vehicules/cashregister6.wav" id="5_q068u"]
 
 [sub_resource type="Gradient" id="Gradient_ns6r6"]
 colors = PackedColorArray(0, 0, 0, 0.392157, 0, 0, 0, 0.392157)
@@ -76,6 +77,7 @@ _data = {
 }
 
 [node name="Ship" type="Node2D"]
+y_sort_enabled = true
 position = Vector2(0, 0.7523)
 script = ExtResource("1_7nxyt")
 
@@ -103,5 +105,8 @@ autoplay = "idle"
 
 [node name="Beam" parent="." instance=ExtResource("4_wl646")]
 position = Vector2(0, 19.2477)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_q068u")
 
 [connection signal="ItemReceived" from="Beam" to="." method="OnBeamItemReceived"]

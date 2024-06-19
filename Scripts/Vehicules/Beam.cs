@@ -27,18 +27,9 @@ public partial class Beam : Node2D
 		abductionAudioPlayer = GetNode<AudioStreamPlayer2D>("AbductionAudioPlayer");
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-		if (isTowingItem)
-		{
-			if (towedItem.HasEndTowed)
-				EndTowItem();
-		}
-	}
-
 	private void OnArea2DBodyEntered(Node2D body)
 	{
+		GD.Print(Name);
 		Object obj = (Object)body;
 		if (obj.IsInGroup(E_Group.ITEM))
 		{
@@ -53,14 +44,16 @@ public partial class Beam : Node2D
 
 		item.canBeCarried = false;
 
-		item.FreeAllPikmin();
 		item.ActivateCollision(false);
+		item.FreeAllPikmin();
 
 		item.Position = area.Position + GlobalPosition;
 
 		item.PlayTowedAnimation();
 
 		abductionAudioPlayer.Play();
+
+		item.EndedTow += EndTowItem;
 	}
 
 	public void EndTowItem()

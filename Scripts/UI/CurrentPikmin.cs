@@ -1,15 +1,20 @@
 using Godot;
 using System;
 
-public partial class CurrentPikmin : Control
+public partial class CurrentPikmin : HBoxContainer
 {
-	// Called when the node enters the scene tree for the first time.
+	#region Components
+	private TextureRect nextPikminLeft;
+	private TextureRect currentPikmin;
+	private TextureRect nextPikminRight;
+	#endregion
+
 	public override void _Ready()
 	{
-	}
+		base._Ready();
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
+		nextPikminLeft = GetNode<TextureRect>("NextPikminLeft");
+		currentPikmin = GetNode<TextureRect>("CurrentPikmin");
+		nextPikminRight = GetNode<TextureRect>("NextPikminRight");
 	}
 }

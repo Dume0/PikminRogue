@@ -22,17 +22,10 @@ public abstract partial class Living : Object
          Death();
    }
 
-   private void Death()
+   protected virtual void Death()
    {
-
+      GD.Print(Name + " is dead");
    }
-
-   protected void ApplyVelocity(Vector2 velocity)
-   {
-      Velocity = velocity;
-      MoveAndSlide();
-   }
-
 
 
    /* 

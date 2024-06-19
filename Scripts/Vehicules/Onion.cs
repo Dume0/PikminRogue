@@ -6,8 +6,9 @@ public partial class Onion : Node2D
    public static Onion instance;
 
    #region Components
-   Beam beam; public Beam Beam { get { return beam; } private set { } }
+   private Beam beam; public Beam Beam { get { return beam; } private set { } }
    private Node2D sproutPoint;
+   private AudioStreamPlayer2D audioPlayer;
    #endregion
 
    private PackedScene seedScene = ResourceLoader.Load<PackedScene>("res://Scenes/seed.tscn");
@@ -20,45 +21,25 @@ public partial class Onion : Node2D
 
       beam = GetNode<Beam>("Beam");
       sproutPoint = GetNode<Node2D>("SproutPoint");
+      audioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
    }
 
    private void OnBeamItemReceived(Item item)
    {
-      item.CallDeferred("QueueFree");
+      SproutSeed(item.Value);
 
+      item.QueueFree();
    }
-
-   /*private void OnArea2dBodyEntered(Node2D body)
-   {
-      Object obj = (Object)body;
-      // Item
-      if (obj.IsInGroup(E_Group.ITEM))
-      {
-         Item item = (Item)obj;
-         if (!item.IsPikminFood)
-            return;
-
-         SproutSeed(item.Value);
-         item.FreeAllPikmin();
-         item.QueueFree();
-      }
-   }*/
 
    private void SproutSeed(int nb)
    {
-      // Temp
-      for (int i = 0; i < nb; i++)
-      {
-         Sprout sprout = sproutScene.Instantiate() as Sprout;
-         AddChild(sprout);
-         sprout.Position = new Vector2(sproutPoint.Position.X, sproutPoint.Position.Y + 20);
-      }
+      audioPlayer.Play();
 
-      /*for (int i = 0; i < nb; i++)
+      for (int i = 0; i < nb; i++)
       {
          Seed seed = seedScene.Instantiate() as Seed;
          AddChild(seed);
          seed.Position = sproutPoint.Position;
-      }*/
+      }
    }
 }
