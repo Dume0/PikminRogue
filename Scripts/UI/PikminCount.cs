@@ -7,19 +7,15 @@ public partial class PikminCount : PanelContainer
 
 	private Label pikminCountLabel;
 
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		if (instance == null) { instance = this; } // Singleton
+		base._Ready();
+		if (instance == null) { instance = this; } else { GD.PrintErr("Two or more instance of this object are presents"); } // Singleton
 
 		pikminCountLabel = GetNode<Label>("CenterContainer/Count");
 		UpdatePikminCount();
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
 
 	public void UpdatePikminCount()
 	{

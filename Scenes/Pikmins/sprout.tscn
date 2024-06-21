@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://c3a4hnt8axnec"]
 
-[ext_resource type="Script" path="res://Scripts/Pikmins/Sprout.cs" id="1_jiwod"]
-[ext_resource type="Texture2D" uid="uid://by0e1pl2ay1o3" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_sprout_idle.png" id="2_2u134"]
+[ext_resource type="Script" path="res://Scripts/Creatures/Pikmins/Sprout.cs" id="1_wkajm"]
+[ext_resource type="Texture2D" uid="uid://dtmk8vncdbtlq" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_sprout_spritesheet.png" id="2_vlqti"]
 [ext_resource type="AudioStream" uid="uid://fq1yi5mli2s8" path="res://Assets/Sounds/Pikmin/pluck7.wav" id="3_5aou6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hjpj2"]
@@ -25,6 +25,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_pqfk7"]
 resource_name = "idle"
 length = 0.8
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -69,6 +70,18 @@ tracks/1/keys = {
 "method": &"queue_free"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite2D:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [2, 3]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mpl8h"]
 _data = {
@@ -80,12 +93,12 @@ _data = {
 [node name="Sprout" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
-script = ExtResource("1_jiwod")
+script = ExtResource("1_wkajm")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -4)
-texture = ExtResource("2_2u134")
+texture = ExtResource("2_vlqti")
 hframes = 2
+vframes = 2
 
 [node name="Area2D" type="Area2D" parent="."]
 
@@ -99,3 +112,4 @@ stream = ExtResource("3_5aou6")
 libraries = {
 "": SubResource("AnimationLibrary_mpl8h")
 }
+autoplay = "idle"

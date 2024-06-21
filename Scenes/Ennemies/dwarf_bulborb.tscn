@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://yklqatmjf8gh"]
+[gd_scene load_steps=12 format=3 uid="uid://yklqatmjf8gh"]
 
-[ext_resource type="Script" path="res://Scripts/Ennemies/DwarfBulborb.cs" id="1_sberu"]
+[ext_resource type="Script" path="res://Scripts/Creatures/Ennemies/DwarfBulborb.cs" id="1_jwbpx"]
 [ext_resource type="Texture2D" uid="uid://bbyrj7sac57yw" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle.png" id="2_0m2j3"]
 [ext_resource type="Texture2D" uid="uid://dew4234txf4iy" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle_shadow.png" id="3_i3t23"]
 [ext_resource type="AudioStream" uid="uid://7xjx4jsfv27x" path="res://Assets/Sounds/Ennemies/DwarfBulborb/death2.wav" id="4_5eaue"]
@@ -53,12 +53,15 @@ _data = {
 "RESET": SubResource("Animation_3aw5q")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_e4py0"]
+radius = 38.0526
+
 [node name="DwarfBulborb" type="CharacterBody2D"]
 y_sort_enabled = true
 position = Vector2(3, -5)
 collision_layer = 4
 collision_mask = 271
-script = ExtResource("1_sberu")
+script = ExtResource("1_jwbpx")
 healthMax = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -97,3 +100,11 @@ autoplay = "Idle"
 [node name="DeathAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_5eaue")
 bus = &"SFX"
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="AreaOfAction" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfAction"]
+position = Vector2(-3, 5)
+shape = SubResource("CircleShape2D_e4py0")

@@ -31,10 +31,11 @@ public partial class Player : Living
 	private Pikmin grabedPikmin;
 
 	#region States
-	public bool isWalking = false; public bool IsWalking { get { return isWalking; } private set { } }
-	public bool isWhistling = false; public bool IsWhistling { get { return isWhistling; } private set { } }
-	public bool isGrabing = false; public bool IsGrabing { get { return isGrabing; } private set { } }
-	[Export] public bool isThrowing = false; public bool IsThrowing { get { return isThrowing; } private set { } }
+	private bool isWalking = false; public bool IsWalking { get { return isWalking; } private set { } }
+	private bool isWhistling = false; public bool IsWhistling { get { return isWhistling; } private set { } }
+	private bool isGrabing = false; public bool IsGrabing { get { return isGrabing; } private set { } }
+	[Export] private bool isPlucking = false;
+	[Export] private bool isThrowing = false; public bool IsThrowing { get { return isThrowing; } private set { } }
 	[Export] private bool isPlayingThrowAnimation = false;
 
 	#endregion
@@ -279,6 +280,7 @@ public partial class Player : Living
 
 			Sprout sprout = (Sprout)body.GetParent();
 			sprout.Pluck();
+			isPlucking = true;
 			return true;
 		}
 		return false;
@@ -292,7 +294,9 @@ public partial class Player : Living
 		if (isPlayingThrowAnimation)
 			return;
 
-		if (isGrabing && !isWalking)
+		if (isPlucking)
+			animationPlayer.Play("pluck");
+		else if (isGrabing && !isWalking)
 			animationPlayer.Play("grab");
 		else if (isGrabing && isWalking)
 			animationPlayer.Play("grab_walk");

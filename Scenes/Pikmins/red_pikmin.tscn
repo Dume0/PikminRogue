@@ -1,6 +1,6 @@
-[gd_scene load_steps=29 format=3 uid="uid://cvnbuxguy7kwl"]
+[gd_scene load_steps=30 format=3 uid="uid://cvnbuxguy7kwl"]
 
-[ext_resource type="Script" path="res://Scripts/Pikmins/RedPikmin.cs" id="1_ast0f"]
+[ext_resource type="Script" path="res://Scripts/Creatures/Pikmins/RedPikmin.cs" id="1_xs6sw"]
 [ext_resource type="Texture2D" uid="uid://dh6r7l5cs1yvf" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_spritesheet.png" id="2_rdm7o"]
 [ext_resource type="AudioStream" uid="uid://ba8x3eefqdgal" path="res://Assets/Sounds/Pikmin/throw.wav" id="4_42bsr"]
 [ext_resource type="Texture2D" uid="uid://dx1x4rdsciowk" path="res://Assets/Sprites/Pikmin/pikmin_shadow.png" id="4_526pl"]
@@ -142,6 +142,18 @@ tracks/2/keys = {
 "method": &"play"
 }]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AttackParticles2D:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.8),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_okxcu"]
 resource_name = "idle"
@@ -185,10 +197,19 @@ _data = {
 "throwed": SubResource("Animation_77g7f")
 }
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3p617"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+linear_accel_min = 10.42
+linear_accel_max = 16.72
+radial_accel_max = 25.0
+tangential_accel_min = -33.33
+tangential_accel_max = 36.05
+
 [node name="RedPikmin" type="CharacterBody2D"]
 z_index = 1
 collision_mask = 271
-script = ExtResource("1_ast0f")
+script = ExtResource("1_xs6sw")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 target_desired_distance = 20.0
@@ -269,6 +290,16 @@ autoplay = "idle"
 stream = ExtResource("6_dng1n")
 volume_db = -12.442
 bus = &"SFX"
+
+[node name="AttackParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -12)
+emitting = false
+amount = 4
+process_material = SubResource("ParticleProcessMaterial_3p617")
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.85
+randomness = 1.0
 
 [connection signal="tree_exiting" from="." to="." method="OnDestroy"]
 [connection signal="target_reached" from="NavigationAgent2D" to="." method="OnNavigationAgent2dTargetReached"]

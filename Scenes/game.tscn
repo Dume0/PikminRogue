@@ -4607,6 +4607,8 @@ position = Vector2(48, -26)
 [node name="Ship" parent="." instance=ExtResource("9_pvdjk")]
 position = Vector2(-17, -52)
 
+[node name="UI" parent="." instance=ExtResource("15_qoh33")]
+
 [node name="PinJoint2D" type="PinJoint2D" parent="."]
 position = Vector2(49, 44)
 node_a = NodePath("../Olimar")
@@ -4710,8 +4712,6 @@ position = Vector2(1, -2)
 environment = SubResource("Environment_0r6ot")
 camera_attributes = SubResource("CameraAttributesPractical_m8ank")
 
-[node name="UI" parent="." instance=ExtResource("15_qoh33")]
-
 [node name="CloudsParticles2D" type="GPUParticles2D" parent="."]
 top_level = true
 z_index = 20
@@ -4722,7 +4722,7 @@ texture = ExtResource("16_vpm2i")
 lifetime = 300.0
 preprocess = 101.66
 randomness = 0.55
-visibility_rect = Rect2(0, 0, 0, 0)
+visibility_rect = Rect2(0, 0, 1e+06, 1e+06)
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_mm4r8")

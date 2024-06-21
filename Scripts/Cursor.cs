@@ -68,7 +68,7 @@ public partial class Cursor : Sprite2D
 			OnAreaStay();
 
 		// Draw whistle
-		if (Player.instance.isWhistling)
+		if (Player.instance.IsWhistling)
 			Whistle();
 		else
 			EndWhistle();

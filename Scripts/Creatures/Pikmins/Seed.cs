@@ -34,6 +34,7 @@ public partial class Seed : Object
       Vector2 v = MoveToward(direction, speed, false);
 
       velocity = new Vector2(v.X, velocity.Y + 0.5f);
+      //sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 0.5f);
       ApplyVelocity(velocity);
    }
 
