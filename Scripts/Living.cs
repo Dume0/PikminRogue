@@ -3,6 +3,8 @@ using System;
 
 public abstract partial class Living : Object
 {
+   [Signal] public delegate void DeadEventHandler();
+
    protected bool isFacingFront = true;
 
    [Export] public int healthMax;
@@ -24,9 +26,8 @@ public abstract partial class Living : Object
 
    protected virtual void Death()
    {
-      GD.Print(Name + " is dead");
+      EmitSignal(SignalName.Dead);
    }
-
 
    /* 
 

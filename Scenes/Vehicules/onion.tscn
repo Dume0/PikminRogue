@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c7voxwnmsfo8l"]
+[gd_scene load_steps=15 format=3 uid="uid://c7voxwnmsfo8l"]
 
 [ext_resource type="Script" path="res://Scripts/Vehicules/Onion.cs" id="1_agw0b"]
 [ext_resource type="Texture2D" uid="uid://dfgoi235mkdh4" path="res://Assets/Sprites/Vehicules/Onion/red_oignon_idle.png" id="2_fx4h5"]
@@ -30,6 +30,28 @@ animations = [{
 "name": &"default",
 "speed": 1.0
 }]
+
+[sub_resource type="Curve" id="Curve_p4jpb"]
+_data = [Vector2(0, 0.637363), 0.0, 0.0, 0, 0, Vector2(1, 0.263736), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_t0lvp"]
+curve = SubResource("Curve_p4jpb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_c1uqo"]
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 1.0
+angle_min = -720.0
+angle_max = 720.0
+spread = 180.0
+initial_velocity_min = 27.65
+initial_velocity_max = 46.85
+gravity = Vector3(0, 41, 0)
+radial_accel_min = -13.1
+radial_accel_max = 28.57
+color = Color(1, 1, 0, 0.8)
+alpha_curve = SubResource("CurveTexture_t0lvp")
 
 [node name="Onion" type="Node2D"]
 y_sort_enabled = true
@@ -71,5 +93,14 @@ texture = ExtResource("7_df2br")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_s5xeu")
+
+[node name="SproutParticles2D" type="GPUParticles2D" parent="."]
+z_index = 3
+position = Vector2(0, -53)
+emitting = false
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_c1uqo")
+one_shot = true
+explosiveness = 1.0
 
 [connection signal="ItemReceived" from="Beam" to="." method="OnBeamItemReceived"]

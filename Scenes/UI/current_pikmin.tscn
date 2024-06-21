@@ -1,27 +1,57 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3bx486omkoxi"]
+[gd_scene load_steps=5 format=3 uid="uid://b3bx486omkoxi"]
 
 [ext_resource type="Script" path="res://Scripts/UI/CurrentPikmin.cs" id="1_mvj1v"]
 [ext_resource type="Texture2D" uid="uid://lalnh8oorg35" path="res://Assets/Sprites/UI/CurrentPikmin/current_red_pikmin.png" id="2_4fdxo"]
 [ext_resource type="Texture2D" uid="uid://dx6xyssiv3odr" path="res://Assets/Sprites/UI/CurrentPikmin/next_none_pikmin.png" id="3_3x7xv"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_2w0ww"]
+font_size = 11
+
 [node name="CurrentPikmin" type="HBoxContainer"]
-offset_left = 7.0
-offset_top = 333.0
-offset_right = 80.0
-offset_bottom = 351.0
+offset_top = 322.0
+offset_right = 72.0
+offset_bottom = 360.0
 alignment = 1
 script = ExtResource("1_mvj1v")
 
-[node name="NextPikminLeft" type="TextureRect" parent="."]
+[node name="MarginContainerLeft" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 4
+
+[node name="AspectRatioContainerLeft" type="AspectRatioContainer" parent="MarginContainerLeft"]
+layout_mode = 2
+
+[node name="NextPikminLeft" type="TextureRect" parent="MarginContainerLeft/AspectRatioContainerLeft"]
 layout_mode = 2
 size_flags_horizontal = 0
 texture = ExtResource("3_3x7xv")
 
-[node name="CurrentPikmin" type="TextureRect" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = -1
+alignment = 1
+
+[node name="CurrentPikmin" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 texture = ExtResource("2_4fdxo")
 
-[node name="NextPikminRight" type="TextureRect" parent="."]
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_2w0ww")
+horizontal_alignment = 1
+
+[node name="MarginContainerRight" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_top = 4
+
+[node name="AspectRatioContainerRight" type="AspectRatioContainer" parent="MarginContainerRight"]
+layout_mode = 2
+
+[node name="NextPikminRight" type="TextureRect" parent="MarginContainerRight/AspectRatioContainerRight"]
 layout_mode = 2
 size_flags_horizontal = 8
 texture = ExtResource("3_3x7xv")

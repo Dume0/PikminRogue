@@ -1,11 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://yklqatmjf8gh"]
+[gd_scene load_steps=11 format=3 uid="uid://yklqatmjf8gh"]
 
 [ext_resource type="Script" path="res://Scripts/Ennemies/DwarfBulborb.cs" id="1_sberu"]
 [ext_resource type="Texture2D" uid="uid://bbyrj7sac57yw" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle.png" id="2_0m2j3"]
 [ext_resource type="Texture2D" uid="uid://dew4234txf4iy" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle_shadow.png" id="3_i3t23"]
+[ext_resource type="AudioStream" uid="uid://7xjx4jsfv27x" path="res://Assets/Sounds/Ennemies/DwarfBulborb/death2.wav" id="4_5eaue"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67wdj"]
-size = Vector2(11, 14)
+size = Vector2(6.25002, 9.49999)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_f5sv5"]
 radius = 2.0
@@ -67,7 +68,7 @@ hframes = 3
 [node name="CreatureArea2D" type="Area2D" parent="Sprite2D"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/CreatureArea2D"]
-position = Vector2(-1, -1)
+position = Vector2(-2, -1)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_67wdj")
 
@@ -92,3 +93,7 @@ libraries = {
 "": SubResource("AnimationLibrary_a3xgb")
 }
 autoplay = "Idle"
+
+[node name="DeathAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_5eaue")
+bus = &"SFX"

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://jq16vx82ahb"
+path="res://.godot/imported/122. Awakening Wood (Olimar, Near Sundown).wav-e73d4dc3f627c3b639d35972ba2acf69.sample"
+
+[deps]
+
+source_file="res://Assets/Sounds/Olimar/122. Awakening Wood (Olimar, Near Sundown).wav"
+dest_files=["res://.godot/imported/122. Awakening Wood (Olimar, Near Sundown).wav-e73d4dc3f627c3b639d35972ba2acf69.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

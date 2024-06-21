@@ -9,7 +9,11 @@ public abstract partial class Creature : Living
    protected Area2D shadowArea;
    protected Sprite2D shadowSprite;
    protected Area2D creatureArea;
+   private AudioStreamPlayer2D deathAudioStream;
    #endregion
+
+   private PackedScene spiritScene = ResourceLoader.Load<PackedScene>("res://Scenes/Ennemies/creature_spirit.tscn");
+
 
    public override void _Ready()
    {
@@ -21,6 +25,7 @@ public abstract partial class Creature : Living
       shadowSprite = GetNode<Sprite2D>("ShadowSprite2D");
       creatureArea = GetNode<Area2D>("Sprite2D/CreatureArea2D");
       creatureArea.AddToGroup(Group.E_GroupToString(E_Group.CREATURE));
+      deathAudioStream = GetNodeOrNull<AudioStreamPlayer2D>("DeathAudioStreamPlayer2D");
 
       AddToGroup(E_Group.CREATURE);
    }
@@ -69,6 +74,12 @@ public abstract partial class Creature : Living
             Utils.SetParent(node, GetTree().Root.GetChild(0));
          }
       }
+
+      deathAudioStream.Play();
+
+      Sprite2D spirit = spiritScene.Instantiate() as Sprite2D;
+      GetTree().Root.GetChild(0).AddChild(spirit);
+      spirit.Position = GlobalPosition;
    }
 
    public void OnDamageReceived()

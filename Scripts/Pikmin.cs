@@ -29,11 +29,22 @@ public enum E_PikminGrowth
 	FLOWER
 }
 
+public enum E_PikminType
+{
+	NONE,
+	RED,
+	YELLOW,
+	BLUE,
+	VIOLET,
+	WHITE
+}
+
 public abstract partial class Pikmin : Creature
 {
 	#region Components
 	NavigationAgent2D navigationAgent;
 	AudioStreamPlayer2D throwedAudioStream;
+	AudioStreamPlayer2D attackAudioStream;
 	GpuParticles2D dustParticles;
 	GpuParticles2D throwParticles;
 	Area2D actionArea;
@@ -44,6 +55,7 @@ public abstract partial class Pikmin : Creature
 	private E_PikminState state; public E_PikminState State { get { return state; } private set { } }
 	protected E_Element elementResistance = E_Element.NONE; public E_Element ElementResistance { get { return elementResistance; } private set { } }
 	private E_PikminGrowth growth = E_PikminGrowth.LEAF; public E_PikminGrowth Growth { get { return growth; } private set { } }
+	protected E_PikminType pikminType = E_PikminType.NONE; public E_PikminType PikminType { get { return pikminType; } private set { } }
 	#endregion
 
 	[Signal] public delegate void InflictDamageEventHandler();
@@ -67,6 +79,7 @@ public abstract partial class Pikmin : Creature
 		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		throwedAudioStream = GetNode<AudioStreamPlayer2D>("ThrowedAudioStreamPlayer2D");
+		attackAudioStream = GetNode<AudioStreamPlayer2D>("AttackAudioStreamPlayer2D");
 		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
 		throwParticles = GetNode<GpuParticles2D>("Sprite2D/ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
@@ -74,6 +87,7 @@ public abstract partial class Pikmin : Creature
 
 		AddToGroup(E_Group.PIKMIN);
 
+		PikminCount.instance.UpdatePikminCount();
 	}
 
 	public override void _Process(double delta)

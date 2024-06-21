@@ -9,10 +9,11 @@ public partial class Onion : Node2D
    private Beam beam; public Beam Beam { get { return beam; } private set { } }
    private Node2D sproutPoint;
    private AudioStreamPlayer2D audioPlayer;
+   private GpuParticles2D sproutParticles;
    #endregion
 
-   private PackedScene seedScene = ResourceLoader.Load<PackedScene>("res://Scenes/seed.tscn");
-   private PackedScene sproutScene = ResourceLoader.Load<PackedScene>("res://Scenes/sprout.tscn");
+   private PackedScene seedScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/seed.tscn");
+   private PackedScene sproutScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/sprout.tscn");
 
    public override void _Ready()
    {
@@ -22,6 +23,7 @@ public partial class Onion : Node2D
       beam = GetNode<Beam>("Beam");
       sproutPoint = GetNode<Node2D>("SproutPoint");
       audioPlayer = GetNode<AudioStreamPlayer2D>("AudioStreamPlayer2D");
+      sproutParticles = GetNode<GpuParticles2D>("SproutParticles2D");
    }
 
    private void OnBeamItemReceived(Item item)
@@ -34,6 +36,7 @@ public partial class Onion : Node2D
    private void SproutSeed(int nb)
    {
       audioPlayer.Play();
+      sproutParticles.Emitting = true;
 
       for (int i = 0; i < nb; i++)
       {

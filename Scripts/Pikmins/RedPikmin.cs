@@ -9,5 +9,6 @@ public partial class RedPikmin : Pikmin
       base._Ready();
 
       elementResistance = E_Element.FIRE;
+      pikminType = E_PikminType.RED;
    }
 }

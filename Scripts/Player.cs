@@ -38,8 +38,9 @@ public partial class Player : Living
 	[Export] private bool isPlayingThrowAnimation = false;
 
 	#endregion
-	private bool canPlayWalkingSound = true;
-	private List<Pikmin> pikmins;
+
+	private List<Pikmin> pikmins; public List<Pikmin> Pikmins { get { return pikmins; } private set { } }
+	private E_PikminType activePikminType; public E_PikminType ActivePikminType { get { return activePikminType; } private set { } }
 
 	[Export] float throwSpeed = 10f;
 	[Export] bool throwLobAngle = true;
@@ -167,18 +168,6 @@ public partial class Player : Living
 	private void Move()
 	{
 		Vector2 velocity = MoveToward(this.direction, this.movementSpeed, true);
-
-		// Play Sound
-		if (velocity != Vector2.Zero && canPlayWalkingSound)
-		{
-			walkingSound.Play();
-			canPlayWalkingSound = false;
-		}
-		if (!isWalking)
-		{
-			walkingSound.Playing = false;
-			canPlayWalkingSound = true;
-		}
 	}
 
 	//////// Actions ///////////
@@ -328,11 +317,6 @@ public partial class Player : Living
 	public void AddPikminToGroup(Pikmin pikmin)
 	{
 		pikmins.Add(pikmin);
-	}
-
-	private void OnWalkingSoundFinished()
-	{
-		canPlayWalkingSound = true;
 	}
 
 	private void DebugStates()
