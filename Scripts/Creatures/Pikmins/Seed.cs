@@ -8,10 +8,13 @@ public partial class Seed : Object
    private Sprite2D shadowSprite;
    #endregion
 
-   private float initialYVelocity = -10f;
+   private PackedScene sproutScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/sprout.tscn");
+
+   private float initialYVelocity = -15f;
    private Vector2 velocity;
    private Vector2 direction;
-   private float speed = 1f;
+   private float speed = 0.5f;
+   private const float GRAVITY = 0.5f;
 
    public Seed()
    {
@@ -33,9 +36,35 @@ public partial class Seed : Object
 
       Vector2 v = MoveToward(direction, speed, false);
 
-      velocity = new Vector2(v.X, velocity.Y + 0.5f);
-      //sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 0.5f);
+      velocity = new Vector2(v.X, velocity.Y + GRAVITY);
+
       ApplyVelocity(velocity);
+      ApplyGravity();
+
+      if (!IsAirborn())
+         Sprout();
+   }
+
+   private void Sprout()
+   {
+      Sprout sprout = sproutScene.Instantiate() as Sprout;
+      GetTree().Root.GetChild(0).AddChild(sprout);
+      sprout.GlobalPosition = shadowSprite.GlobalPosition;
+
+      QueueFree();
+   }
+
+   private void ApplyGravity()
+   {
+      if (!IsAirborn())
+         return;
+
+      sprite.MoveLocalY(GRAVITY);
+   }
+
+   private bool IsAirborn()
+   {
+      return sprite.Position.Y + sprite.Texture.GetHeight() <= shadowSprite.Position.Y;
    }
 
    public void GenerateDirection()

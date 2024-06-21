@@ -15,6 +15,7 @@ public partial class Player : Living
 	private RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
 	private Area2D grabPikminArea;
 	private Node2D grabPikminPoint;
+	private Area2D nearEnnemyArea; public Area2D NearEnnemyArea { get { return nearEnnemyArea; } private set { } }
 	#endregion
 
 	private Vector2 direction = new Vector2();
@@ -61,6 +62,7 @@ public partial class Player : Living
 		pikminFollowPoint = GetNode<RigidBody2D>("PikminFollowPoint");
 		grabPikminArea = GetNode<Area2D>("GrabPikminArea2D");
 		grabPikminPoint = GetNode<Node2D>("Sprite2D/GrabPikminPoint");
+		nearEnnemyArea = GetNode<Area2D>("NearEnnemyArea2D");
 
 		whistleRadius = whistleMinRadius;
 	}

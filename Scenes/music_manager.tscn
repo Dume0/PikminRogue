@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bd1cc4a1kcwgy"]
+
+[ext_resource type="Script" path="res://Scripts/MusicManager.cs" id="1_hcogk"]
+[ext_resource type="AudioStream" uid="uid://bs3tw04mw6sgq" path="res://Assets/Musics/122. Awakening Wood (Olimar, Near Sundown).wav" id="2_pdcur"]
+[ext_resource type="AudioStream" uid="uid://5qhfhinhihhb" path="res://Assets/Musics/124. Awakening Wood (Olimar, Near Sundown, Near Enemy).mp3" id="3_e6vl3"]
+
+[node name="MusicManager" type="Node2D"]
+script = ExtResource("1_hcogk")
+mute = true
+
+[node name="BasicAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_pdcur")
+autoplay = true
+bus = &"Music"
+
+[node name="CombatAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_e6vl3")
+autoplay = true
+bus = &"Music"

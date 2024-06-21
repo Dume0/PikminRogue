@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://d126cb12vrx8o"]
+[gd_scene load_steps=25 format=3 uid="uid://d126cb12vrx8o"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_f3n6b"]
 [ext_resource type="Texture2D" uid="uid://b58mvm3cmv831" path="res://Assets/Sprites/Olimar/olimar_shadow.png" id="2_rdjnr"]
@@ -428,6 +428,9 @@ gravity = Vector3(0, 0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_582kr"]
+radius = 95.021
+
 [node name="Olimar" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
@@ -486,3 +489,10 @@ process_material = SubResource("ParticleProcessMaterial_55amx")
 texture = ExtResource("8_f43kg")
 lifetime = 0.5
 one_shot = true
+
+[node name="NearEnnemyArea2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="NearEnnemyArea2D"]
+shape = SubResource("CircleShape2D_582kr")

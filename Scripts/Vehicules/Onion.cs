@@ -11,7 +11,6 @@ public partial class Onion : Vehicule
    #endregion
 
    private PackedScene seedScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/seed.tscn");
-   private PackedScene sproutScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/sprout.tscn");
 
    public override void _Ready()
    {
