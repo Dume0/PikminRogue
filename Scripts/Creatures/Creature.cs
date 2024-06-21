@@ -9,10 +9,8 @@ public abstract partial class Creature : Living
    protected Area2D shadowArea;
    protected Sprite2D shadowSprite;
    protected Area2D creatureArea;
-   private AudioStreamPlayer2D deathAudioStream;
+   protected AudioStreamPlayer2D deathAudioStream;
    #endregion
-
-   private PackedScene spiritScene = ResourceLoader.Load<PackedScene>("res://Scenes/Ennemies/creature_spirit.tscn");
 
 
    public override void _Ready()
@@ -63,27 +61,4 @@ public abstract partial class Creature : Living
          return;
    }
 
-   protected override void Death()
-   {
-      base.Death();
-
-      foreach (Node node in GetChildren())
-      {
-         if (node.IsInGroup(Group.E_GroupToString(E_Group.PIKMIN)))
-         {
-            Utils.SetParent(node, GetTree().Root.GetChild(0));
-         }
-      }
-
-      deathAudioStream.Play();
-
-      Sprite2D spirit = spiritScene.Instantiate() as Sprite2D;
-      GetTree().Root.GetChild(0).AddChild(spirit);
-      spirit.Position = GlobalPosition;
-   }
-
-   public void OnDamageReceived()
-   {
-      TakeDamage(1);
-   }
 }

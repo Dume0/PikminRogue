@@ -33,6 +33,7 @@ public partial class DwarfBulborb : Ennemy
       timer = GetNode<Timer>("Timer");
 
       timeIdling = Utils.GetRandomNumber(2, 8);
+      timer.Start(timeIdling);
    }
 
    public override void _Process(double delta)
@@ -40,6 +41,15 @@ public partial class DwarfBulborb : Ennemy
       base._Process(delta);
 
       AnimationManager();
+   }
+
+   private void OnTimerTimeout()
+   {
+
+   }
+
+   private void GetRandomTargetWalkPosition()
+   {
    }
 
    protected override void Death()

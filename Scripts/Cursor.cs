@@ -54,6 +54,10 @@ public partial class Cursor : Sprite2D
 		// Set Cursor position
 		this.Position = GetGlobalMousePosition();
 
+		// Set Camera offset
+		GetNode<Camera2D>("%Camera2D").Offset = new Vector2((Position.X - Player.instance.GlobalPosition.X) / (GetTree().Root.Size.X / 20),
+																		(Position.Y - Player.instance.GlobalPosition.Y) / (GetTree().Root.Size.Y / 20));
+
 		// Set Collider radius equals to whistle radius
 		colliderShape.Radius = Player.instance.WhistleRadius;
 

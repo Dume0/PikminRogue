@@ -133,7 +133,7 @@ public abstract partial class Pikmin : Creature
 			// Creature
 			if (body.IsInGroup(E_Group.ENNEMY))
 			{
-				FightCreature((Creature)body);
+				FightCreature((Ennemy)body);
 			}
 		}
 	}
@@ -207,7 +207,7 @@ public abstract partial class Pikmin : Creature
 		if (GetCreatureInCollision() != null)
 		{
 			if (!GetCreatureInCollision().IsInGroup(E_Group.PIKMIN))
-				FightCreature(GetCreatureInCollision());
+				FightCreature((Ennemy)GetCreatureInCollision());
 		}
 
 		// End condition
@@ -266,7 +266,7 @@ public abstract partial class Pikmin : Creature
 	#endregion
 
 	#region Fight
-	private void FightCreature(Creature creature)
+	private void FightCreature(Ennemy creature)
 	{
 		if (state == E_PikminState.FIGHTING)
 			return;

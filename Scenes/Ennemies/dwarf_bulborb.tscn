@@ -129,3 +129,5 @@ position = Vector2(-3, 5)
 shape = SubResource("CircleShape2D_e4py0")
 
 [node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]
