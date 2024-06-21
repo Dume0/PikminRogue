@@ -4715,7 +4715,7 @@ camera_attributes = SubResource("CameraAttributesPractical_m8ank")
 [node name="CloudsParticles2D" type="GPUParticles2D" parent="."]
 top_level = true
 z_index = 20
-position = Vector2(-275, -175)
+position = Vector2(-280, -100)
 amount = 24
 process_material = SubResource("ParticleProcessMaterial_1ynf2")
 texture = ExtResource("16_vpm2i")

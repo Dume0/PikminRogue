@@ -14,6 +14,7 @@ public partial class DwarfBulborb : Ennemy
    private NavigationAgent2D navigationAgent;
    private AnimationPlayer animationPlayer;
    private Area2D areaOfAction;
+   private Timer timer;
    #endregion
 
    private E_DwarfBulbordState state = E_DwarfBulbordState.IDLE;
@@ -29,6 +30,7 @@ public partial class DwarfBulborb : Ennemy
       navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
       areaOfAction = GetNode<Area2D>("AreaOfAction");
       animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
+      timer = GetNode<Timer>("Timer");
 
       timeIdling = Utils.GetRandomNumber(2, 8);
    }
@@ -36,7 +38,8 @@ public partial class DwarfBulborb : Ennemy
    public override void _Process(double delta)
    {
       base._Process(delta);
-      // AnimationManager();
+
+      AnimationManager();
    }
 
    protected override void Death()

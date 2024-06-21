@@ -19,6 +19,7 @@ public enum E_Group
    CREATURE,
    ITEM,
    SPROUT,
+   ENNEMY
 }
 
 public static class Group
@@ -39,6 +40,8 @@ public static class Group
             return "item";
          case E_Group.SPROUT:
             return "sprout";
+         case E_Group.ENNEMY:
+            return "ennemy";
          default:
             return "default";
       }

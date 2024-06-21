@@ -377,6 +377,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_10qbi"]
 resource_name = "pluck"
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -384,7 +385,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.6),
+"times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [24, 25]
@@ -396,7 +397,7 @@ tracks/1/path = NodePath(".:isPlucking")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.6),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -466,6 +467,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
 position = Vector2(0, -8)
 texture = ExtResource("4_mdpsn")
 hframes = 4

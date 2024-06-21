@@ -10,7 +10,8 @@ public enum E_PikminState
 	THROWED,
 	FIGHTING,
 	CARRYING,
-	GRABED
+	GRABED,
+	PLUCKED
 }
 
 public enum E_Element
@@ -52,7 +53,7 @@ public abstract partial class Pikmin : Creature
 	#endregion
 
 	#region Enums
-	private E_PikminState state; public E_PikminState State { get { return state; } private set { } }
+	[Export] private E_PikminState state; public E_PikminState State { get { return state; } private set { } }
 	protected E_Element elementResistance = E_Element.NONE; public E_Element ElementResistance { get { return elementResistance; } private set { } }
 	private E_PikminGrowth growth = E_PikminGrowth.LEAF; public E_PikminGrowth Growth { get { return growth; } private set { } }
 	protected E_PikminType pikminType = E_PikminType.NONE; public E_PikminType PikminType { get { return pikminType; } private set { } }
@@ -130,7 +131,7 @@ public abstract partial class Pikmin : Creature
 				CarryItem((Item)body);
 			}
 			// Creature
-			if (body.IsInGroup(E_Group.CREATURE) && !body.IsInGroup(E_Group.PIKMIN))
+			if (body.IsInGroup(E_Group.ENNEMY))
 			{
 				FightCreature((Creature)body);
 			}
@@ -280,7 +281,7 @@ public abstract partial class Pikmin : Creature
 	#endregion
 	public void FollowPlayer()
 	{
-		if (state == E_PikminState.FOLLOWING_CAPTAIN || state == E_PikminState.THROWED || IsInGroup(E_Group.PIKMIN_GRABED))
+		if (state == E_PikminState.FOLLOWING_CAPTAIN || state == E_PikminState.THROWED || state == E_PikminState.PLUCKED || IsInGroup(E_Group.PIKMIN_GRABED))
 			return;
 
 		EndCarryItem();
@@ -317,6 +318,11 @@ public abstract partial class Pikmin : Creature
 		state = E_PikminState.GRABED;
 	}
 
+	public void PlayPluckedAnimation()
+	{
+		state = E_PikminState.PLUCKED;
+	}
+
 	private void AnimationManager()
 	{
 		switch (state)
@@ -328,13 +334,16 @@ public abstract partial class Pikmin : Creature
 			case E_PikminState.CARRYING:
 			case E_PikminState.GRABED:
 			case E_PikminState.FOLLOWING_CAPTAIN:
-				animationPlayer.Play("idle");
+				animationPlayer.Play("walk");
 				break;
 			case E_PikminState.THROWED:
 				animationPlayer.Play("throwed");
 				break;
 			case E_PikminState.FIGHTING:
 				animationPlayer.Play("fight");
+				break;
+			case E_PikminState.PLUCKED:
+				animationPlayer.Play("plucked");
 				break;
 			default:
 				GD.PushError("Pikmin AnimationManager : default case reached");

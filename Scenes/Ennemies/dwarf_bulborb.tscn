@@ -1,7 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://yklqatmjf8gh"]
+[gd_scene load_steps=13 format=3 uid="uid://yklqatmjf8gh"]
 
 [ext_resource type="Script" path="res://Scripts/Creatures/Ennemies/DwarfBulborb.cs" id="1_jwbpx"]
-[ext_resource type="Texture2D" uid="uid://bbyrj7sac57yw" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle.png" id="2_0m2j3"]
+[ext_resource type="Texture2D" uid="uid://mb5upfcyrppa" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_spritesheet.png" id="2_ijm8w"]
 [ext_resource type="Texture2D" uid="uid://dew4234txf4iy" path="res://Assets/Sprites/Ennemies/DwarfBulborb/dwarf_bulborb_idle_shadow.png" id="3_i3t23"]
 [ext_resource type="AudioStream" uid="uid://7xjx4jsfv27x" path="res://Assets/Sounds/Ennemies/DwarfBulborb/death2.wav" id="4_5eaue"]
 
@@ -15,22 +15,6 @@ height = 12.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u3tvw"]
 radius = 1.0
 height = 8.0
-
-[sub_resource type="Animation" id="Animation_ctliw"]
-resource_name = "Idle"
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [0, 1, 2]
-}
 
 [sub_resource type="Animation" id="Animation_3aw5q"]
 length = 0.001
@@ -47,10 +31,44 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_ctliw"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_gprnj"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [4, 5, 6, 7]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_a3xgb"]
 _data = {
-"Idle": SubResource("Animation_ctliw"),
-"RESET": SubResource("Animation_3aw5q")
+"RESET": SubResource("Animation_3aw5q"),
+"idle": SubResource("Animation_ctliw"),
+"walk": SubResource("Animation_gprnj")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e4py0"]
@@ -65,8 +83,9 @@ script = ExtResource("1_jwbpx")
 healthMax = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_0m2j3")
-hframes = 3
+texture = ExtResource("2_ijm8w")
+hframes = 4
+vframes = 2
 
 [node name="CreatureArea2D" type="Area2D" parent="Sprite2D"]
 
@@ -95,7 +114,7 @@ texture = ExtResource("3_i3t23")
 libraries = {
 "": SubResource("AnimationLibrary_a3xgb")
 }
-autoplay = "Idle"
+autoplay = "idle"
 
 [node name="DeathAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_5eaue")
@@ -108,3 +127,5 @@ bus = &"SFX"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaOfAction"]
 position = Vector2(-3, 5)
 shape = SubResource("CircleShape2D_e4py0")
+
+[node name="Timer" type="Timer" parent="."]

@@ -28,6 +28,7 @@ public partial class Sprout : Object
 		Pikmin pikmin = pikminScene.Instantiate() as Pikmin;
 		GetTree().Root.GetChild(0).AddChild(pikmin);
 		pikmin.GlobalPosition = GlobalPosition;
+		pikmin.PlayPluckedAnimation();
 	}
 
 	public void Pluck()
