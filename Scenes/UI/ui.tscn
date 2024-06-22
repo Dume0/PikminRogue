@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dnrc0uy5nbvc1"]
+[gd_scene load_steps=4 format=3 uid="uid://dnrc0uy5nbvc1"]
 
 [ext_resource type="PackedScene" uid="uid://b3bx486omkoxi" path="res://Scenes/UI/current_pikmin.tscn" id="1_a0dml"]
 [ext_resource type="PackedScene" uid="uid://dq1hw5le3jvtf" path="res://Scenes/UI/pikmin_count.tscn" id="2_b3mt4"]
+[ext_resource type="PackedScene" uid="uid://bcfs6o6cknj8q" path="res://Scenes/UI/day_meter.tscn" id="3_71eno"]
 
 [node name="UI" type="CanvasLayer"]
 
@@ -25,7 +26,9 @@ offset_bottom = -22.0
 scale = Vector2(2, 2)
 size_flags_horizontal = 8
 
-[node name="Container" type="Container" parent="."]
-visible = false
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="DayMeter" parent="." instance=ExtResource("3_71eno")]
+offset_left = -100.0
+offset_top = -13.0
+offset_right = 8.0
+offset_bottom = 27.0
+size_flags_vertical = 0

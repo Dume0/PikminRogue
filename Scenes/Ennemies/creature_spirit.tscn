@@ -1,6 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://calemrdb3ihi4"]
+[gd_scene load_steps=7 format=3 uid="uid://calemrdb3ihi4"]
 
+[ext_resource type="Shader" path="res://Assets/Shaders/spirit.gdshader" id="1_f2hrx"]
 [ext_resource type="Texture2D" uid="uid://coiftqt71qr3y" path="res://Assets/Sprites/Ennemies/creature_spirit.png" id="1_rkvmp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_37ekv"]
+shader = ExtResource("1_f2hrx")
 
 [sub_resource type="Animation" id="Animation_brg48"]
 length = 0.001
@@ -55,6 +59,7 @@ _data = {
 
 [node name="CreatureSpirit" type="Sprite2D"]
 z_index = 2
+material = SubResource("ShaderMaterial_37ekv")
 texture = ExtResource("1_rkvmp")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

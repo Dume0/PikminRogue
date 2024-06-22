@@ -72,7 +72,7 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_e4py0"]
-radius = 38.0526
+radius = 52.0384
 
 [node name="DwarfBulborb" type="CharacterBody2D"]
 y_sort_enabled = true
@@ -83,6 +83,7 @@ script = ExtResource("1_jwbpx")
 healthMax = 20
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 texture = ExtResource("2_ijm8w")
 hframes = 4
 vframes = 2
@@ -130,4 +131,5 @@ shape = SubResource("CircleShape2D_e4py0")
 
 [node name="Timer" type="Timer" parent="."]
 
+[connection signal="navigation_finished" from="NavigationAgent2D" to="." method="OnNavigationAgentNavigationFinished"]
 [connection signal="timeout" from="Timer" to="." method="OnTimerTimeout"]

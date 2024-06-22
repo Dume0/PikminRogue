@@ -14,10 +14,13 @@ public partial class DwarfBulborb : Ennemy
    private NavigationAgent2D navigationAgent;
    private AnimationPlayer animationPlayer;
    private Area2D areaOfAction;
+   private CircleShape2D areaOfActionShape;
    private Timer timer;
    #endregion
 
-   private E_DwarfBulbordState state = E_DwarfBulbordState.IDLE;
+   private E_DwarfBulbordState state;
+
+   [Export] private float movementSpeed = 10f;
 
    [Range(2, 8)] private double timeIdling;
 
@@ -29,27 +32,70 @@ public partial class DwarfBulborb : Ennemy
 
       navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
       areaOfAction = GetNode<Area2D>("AreaOfAction");
+      areaOfActionShape = (CircleShape2D)GetNode<CollisionShape2D>("AreaOfAction/CollisionShape2D").Shape;
       animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
       timer = GetNode<Timer>("Timer");
 
-      timeIdling = Utils.GetRandomNumber(2, 8);
-      timer.Start(timeIdling);
+      Idle();
    }
 
    public override void _Process(double delta)
    {
       base._Process(delta);
 
+      switch (state)
+      {
+         case E_DwarfBulbordState.WALK:
+            Move();
+            break;
+         default:
+            break;
+      }
       AnimationManager();
    }
 
    private void OnTimerTimeout()
    {
-
+      navigationAgent.TargetPosition = GetRandomTargetWalkPosition();
+      state = E_DwarfBulbordState.WALK;
    }
 
-   private void GetRandomTargetWalkPosition()
+   private void OnNavigationAgentNavigationFinished()
    {
+      Idle();
+      GD.Print("azea");
+   }
+
+   private void Idle()
+   {
+      state = E_DwarfBulbordState.IDLE;
+
+      timeIdling = Utils.GetRandomNumber(2, 8);
+      timer.Start(timeIdling);
+   }
+
+   protected void FlipSprite(Vector2 direction)
+   {
+      if (direction.X < 0) { sprite.FlipH = true; }
+      else if (direction.X > 0) { sprite.FlipH = false; }
+   }
+
+   private void Move()
+   {
+      Vector2 velocity = Velocity;
+      Vector2 direction = new Vector2();
+
+      direction = Position.DirectionTo(navigationAgent.GetNextPathPosition());
+      velocity = direction * movementSpeed;
+      navigationAgent.SetVelocityForced(velocity);
+
+      FlipSprite(direction);
+      ApplyVelocity(velocity);
+   }
+
+   private Vector2 GetRandomTargetWalkPosition()
+   {
+      return Utils.GetRandomPointInsideCircle(GlobalPosition, areaOfActionShape.Radius, areaOfActionShape.Radius / 2);
    }
 
    protected override void Death()

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://be52basrw6flt"]
+
+[ext_resource type="Script" path="res://Scripts/Wall.cs" id="1_ipylv"]
+[ext_resource type="Texture2D" uid="uid://jcaio537dtjc" path="res://Assets/Sprites/Environnement/Walls/wall.png" id="1_vm5u6"]
+[ext_resource type="Texture2D" uid="uid://itwk8rwol7u1" path="res://Assets/Sprites/Environnement/Walls/wall_shadow.png" id="2_0a0va"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pilx8"]
+size = Vector2(87.5, 6)
+
+[node name="Wall" type="CharacterBody2D"]
+y_sort_enabled = true
+script = ExtResource("1_ipylv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("1_vm5u6")
+
+[node name="ShadowSprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 21)
+texture = ExtResource("2_0a0va")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, 18)
+shape = SubResource("RectangleShape2D_pilx8")

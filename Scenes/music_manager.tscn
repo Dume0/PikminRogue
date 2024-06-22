@@ -1,19 +1,24 @@
 [gd_scene load_steps=4 format=3 uid="uid://bd1cc4a1kcwgy"]
 
 [ext_resource type="Script" path="res://Scripts/MusicManager.cs" id="1_hcogk"]
-[ext_resource type="AudioStream" uid="uid://bs3tw04mw6sgq" path="res://Assets/Musics/122. Awakening Wood (Olimar, Near Sundown).wav" id="2_pdcur"]
-[ext_resource type="AudioStream" uid="uid://5qhfhinhihhb" path="res://Assets/Musics/124. Awakening Wood (Olimar, Near Sundown, Near Enemy).mp3" id="3_e6vl3"]
+[ext_resource type="AudioStream" uid="uid://bwil2cw5s3xhh" path="res://Assets/Musics/080 Awakening Wood (Olimar) .mp3" id="2_7enqp"]
+[ext_resource type="AudioStream" uid="uid://dlmpk65qs66d5" path="res://Assets/Musics/082 Awakening Wood (Olimar, Near Enemy) .mp3" id="3_vcn87"]
 
 [node name="MusicManager" type="Node2D"]
 script = ExtResource("1_hcogk")
 mute = true
 
 [node name="BasicAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("2_pdcur")
+stream = ExtResource("2_7enqp")
+autoplay = true
+bus = &"Music"
+
+[node name="NearEnnemyAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_vcn87")
 autoplay = true
 bus = &"Music"
 
 [node name="CombatAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_e6vl3")
+stream = ExtResource("3_vcn87")
 autoplay = true
 bus = &"Music"

@@ -29,7 +29,6 @@ public partial class Beam : Node2D
 
 	private void OnArea2DBodyEntered(Node2D body)
 	{
-		GD.Print(Name);
 		Object obj = (Object)body;
 		if (obj.IsInGroup(E_Group.ITEM))
 		{

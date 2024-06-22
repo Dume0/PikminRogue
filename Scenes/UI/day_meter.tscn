@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcfs6o6cknj8q"]
+
+[ext_resource type="Texture2D" uid="uid://by1o43srfr8vh" path="res://Assets/Sprites/UI/DayMeter/day_meter.png" id="1_im6wl"]
+[ext_resource type="Script" path="res://Scripts/UI/DayMeter.cs" id="1_ro16u"]
+[ext_resource type="Texture2D" uid="uid://cmcduykbkspaf" path="res://Assets/Sprites/UI/DayMeter/sun.png" id="2_uuwsv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_h5hti"]
+
+[node name="DayMeter" type="PanelContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -52.0
+offset_top = -20.0
+offset_right = 56.0
+offset_bottom = 20.0
+grow_horizontal = 2
+scale = Vector2(2, 2)
+theme_override_styles/panel = SubResource("StyleBoxEmpty_h5hti")
+script = ExtResource("1_ro16u")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 2
+
+[node name="Meter" type="TextureRect" parent="AspectRatioContainer"]
+layout_mode = 2
+texture = ExtResource("1_im6wl")
+stretch_mode = 3
+
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="."]
+layout_mode = 2
+
+[node name="Sun" type="TextureRect" parent="AspectRatioContainer2"]
+layout_mode = 2
+texture = ExtResource("2_uuwsv")
