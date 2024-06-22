@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://xd4b5uk3qgmt"]
+[gd_scene load_steps=29 format=3 uid="uid://xd4b5uk3qgmt"]
 
 [ext_resource type="PackedScene" uid="uid://d126cb12vrx8o" path="res://Scenes/olimar.tscn" id="1_wg6tw"]
 [ext_resource type="Script" path="res://Scripts/game_manager.gd" id="2_kxr6m"]
@@ -18,6 +18,7 @@
 [ext_resource type="Texture2D" uid="uid://cjueye2cb4ghv" path="res://Assets/Sprites/Environnement/Cloud.png" id="16_vpm2i"]
 [ext_resource type="PackedScene" uid="uid://bd1cc4a1kcwgy" path="res://Scenes/music_manager.tscn" id="18_7gq37"]
 [ext_resource type="PackedScene" uid="uid://c3a4hnt8axnec" path="res://Scenes/Pikmins/sprout.tscn" id="18_khxmv"]
+[ext_resource type="PackedScene" uid="uid://dbiy3k4wn083p" path="res://Scenes/fog.tscn" id="19_rnm2h"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ayk3q"]
 
@@ -4789,7 +4790,16 @@ position = Vector2(151, 39)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_0r6ot")
 
-[node name="CloudsParticles2D" type="GPUParticles2D" parent="."]
+[node name="Sprout" parent="." instance=ExtResource("18_khxmv")]
+position = Vector2(65, -17)
+
+[node name="DwarfBulborb" parent="." instance=ExtResource("15_jlb86")]
+
+[node name="MusicManager" parent="." instance=ExtResource("18_7gq37")]
+
+[node name="Weather" type="Node2D" parent="."]
+
+[node name="CloudsParticles2D" type="GPUParticles2D" parent="Weather"]
 top_level = true
 z_index = 20
 position = Vector2(-280, -100)
@@ -4801,9 +4811,4 @@ preprocess = 101.66
 randomness = 0.55
 visibility_rect = Rect2(0, 0, 1e+06, 1e+06)
 
-[node name="Sprout" parent="." instance=ExtResource("18_khxmv")]
-position = Vector2(65, -17)
-
-[node name="DwarfBulborb" parent="." instance=ExtResource("15_jlb86")]
-
-[node name="MusicManager" parent="." instance=ExtResource("18_7gq37")]
+[node name="Fog" parent="Weather" instance=ExtResource("19_rnm2h")]
