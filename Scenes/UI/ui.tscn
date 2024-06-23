@@ -29,11 +29,10 @@ scale = Vector2(2, 2)
 size_flags_horizontal = 8
 
 [node name="DayMeter" parent="." instance=ExtResource("3_71eno")]
-visible = false
 offset_left = -100.0
-offset_top = -13.0
+offset_top = -18.0
 offset_right = 8.0
-offset_bottom = 27.0
+offset_bottom = 22.0
 size_flags_vertical = 0
 
 [node name="InputSettings" parent="." instance=ExtResource("4_uy1hu")]

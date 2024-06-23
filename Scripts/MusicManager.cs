@@ -24,6 +24,8 @@ public partial class MusicManager : Node2D
 		nearEnnemyAudioStream = GetNode<AudioStreamPlayer2D>("NearEnnemyAudioStreamPlayer2D");
 		combatAudioStream = GetNode<AudioStreamPlayer2D>("CombatAudioStreamPlayer2D");
 		carryAudioStream = GetNode<AudioStreamPlayer2D>("CarryAudioStreamPlayer2D");
+
+		basicAudioStream.VolumeDb = 0;
 	}
 
 	public override void _Process(double delta)
@@ -40,9 +42,23 @@ public partial class MusicManager : Node2D
 		else
 		{
 			carryAudioStream.VolumeDb = -80;
-			combatAudioStream.VolumeDb = -80;
-			nearEnnemyAudioStream.VolumeDb = IsThereAnEnnemyNearCaptain() ? 0 : -80;
-			basicAudioStream.VolumeDb = !IsThereAnEnnemyNearCaptain() ? 0 : -80;
+			//	ActivateAudio(combatAudioStream, ArePikminsFighting());
+			ActivateAudio(nearEnnemyAudioStream, IsThereAnEnnemyNearCaptain());
+		}
+	}
+
+	private void ActivateAudio(AudioStreamPlayer2D audioStream, bool activate)
+	{
+		if (audioStream.Stream == null)
+			return;
+
+		if (activate && audioStream.VolumeDb < 0)
+		{
+			audioStream.VolumeDb++;
+		}
+		else if (!activate && audioStream.VolumeDb > -80)
+		{
+			audioStream.VolumeDb--;
 		}
 	}
 

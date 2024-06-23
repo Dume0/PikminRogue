@@ -27,9 +27,16 @@ layout_mode = 2
 texture = ExtResource("1_im6wl")
 stretch_mode = 3
 
-[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="."]
+[node name="MarginContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Spacer" type="Control" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Sun" type="TextureRect" parent="AspectRatioContainer2"]
+[node name="AspectRatioContainer2" type="AspectRatioContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Sun" type="TextureRect" parent="MarginContainer/AspectRatioContainer2"]
 layout_mode = 2
 texture = ExtResource("2_uuwsv")
