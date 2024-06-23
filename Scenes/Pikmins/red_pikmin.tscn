@@ -1,10 +1,9 @@
-[gd_scene load_steps=44 format=3 uid="uid://cvnbuxguy7kwl"]
+[gd_scene load_steps=35 format=3 uid="uid://cvnbuxguy7kwl"]
 
 [ext_resource type="Script" path="res://Scripts/Creatures/Pikmins/RedPikmin.cs" id="1_xs6sw"]
 [ext_resource type="Texture2D" uid="uid://dh6r7l5cs1yvf" path="res://Assets/Sprites/Pikmin/RedPikmin/red_pikmin_spritesheet.png" id="2_rdm7o"]
 [ext_resource type="AudioStream" uid="uid://ba8x3eefqdgal" path="res://Assets/Sounds/Pikmin/throw.wav" id="4_42bsr"]
 [ext_resource type="Texture2D" uid="uid://dx1x4rdsciowk" path="res://Assets/Sprites/Pikmin/pikmin_shadow.png" id="4_526pl"]
-[ext_resource type="Texture2D" uid="uid://b3whxcgg0grxt" path="res://Assets/Sprites/Olimar/walk_particles.png" id="5_208a4"]
 [ext_resource type="AudioStream" uid="uid://be8bndwyfaoo5" path="res://Assets/Sounds/Pikmin/attack2.wav" id="6_dng1n"]
 [ext_resource type="AudioStream" uid="uid://nmh4wi7hjo5d" path="res://Assets/Sounds/Pikmin/pluck1.wav" id="7_dllxt"]
 [ext_resource type="AudioStream" uid="uid://7ua3gd65y48v" path="res://Assets/Sounds/Pikmin/pluck2.wav" id="8_f7dsp"]
@@ -44,50 +43,6 @@ size = Vector2(1, 4)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hdt1v"]
 radius = 1.0
-
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_g1241"]
-particles_animation = true
-particles_anim_h_frames = 2
-particles_anim_v_frames = 1
-particles_anim_loop = false
-
-[sub_resource type="Curve" id="Curve_ib8cs"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.340659), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_eg0bw"]
-curve = SubResource("Curve_ib8cs")
-
-[sub_resource type="Gradient" id="Gradient_d3gjo"]
-colors = PackedColorArray(0.404511, 0.404511, 0.404511, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_c75qc"]
-gradient = SubResource("Gradient_d3gjo")
-
-[sub_resource type="Curve" id="Curve_pulkm"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.912088), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_vneow"]
-curve = SubResource("Curve_pulkm")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_rsex8"]
-particle_flag_disable_z = true
-spread = 180.0
-initial_velocity_min = 1.0
-initial_velocity_max = 2.0
-gravity = Vector3(0, 0, 0)
-linear_accel_min = 1.0
-linear_accel_max = 2.0
-scale_min = 1.5
-scale_max = 2.0
-scale_curve = SubResource("CurveTexture_vneow")
-color_initial_ramp = SubResource("GradientTexture1D_c75qc")
-alpha_curve = SubResource("CurveTexture_eg0bw")
-anim_speed_min = 1.0
-anim_speed_max = 1.0
-anim_offset_min = 1.0
-anim_offset_max = 1.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_06m7s"]
 radius = 20.0
@@ -384,20 +339,6 @@ shape = SubResource("CircleShape2D_hdt1v")
 [node name="ThrowedAudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_42bsr")
 bus = &"SFX"
-
-[node name="DustParticles2D" type="GPUParticles2D" parent="."]
-z_index = -1
-material = SubResource("CanvasItemMaterial_g1241")
-position = Vector2(1, 5)
-emitting = false
-amount = 3
-process_material = SubResource("ParticleProcessMaterial_rsex8")
-texture = ExtResource("5_208a4")
-lifetime = 1.4
-one_shot = true
-speed_scale = 3.5
-explosiveness = 1.0
-randomness = 0.1
 
 [node name="ActionArea2D" type="Area2D" parent="."]
 collision_mask = 271

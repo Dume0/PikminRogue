@@ -3,12 +3,13 @@ using System;
 
 public abstract partial class Ennemy : Creature
 {
-   private PackedScene spiritScene = ResourceLoader.Load<PackedScene>("res://Scenes/Ennemies/creature_spirit.tscn");
 
 
    public override void _Ready()
    {
       base._Ready();
+
+      spiritScene = ResourceLoader.Load<PackedScene>("res://Scenes/Ennemies/creature_spirit.tscn");
 
       AddToGroup(E_Group.ENNEMY);
    }
@@ -29,9 +30,7 @@ public abstract partial class Ennemy : Creature
 
       deathAudioStream.Play();
 
-      Sprite2D spirit = spiritScene.Instantiate() as Sprite2D;
-      GetTree().Root.GetChild(0).AddChild(spirit);
-      spirit.Position = GlobalPosition;
+
    }
 
    public void OnDamageReceived()

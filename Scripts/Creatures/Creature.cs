@@ -9,6 +9,7 @@ public abstract partial class Creature : Living
    protected AudioStreamPlayer2D deathAudioStream;
    #endregion
 
+   protected PackedScene spiritScene;
 
    public override void _Ready()
    {
@@ -50,4 +51,12 @@ public abstract partial class Creature : Living
          return;
    }
 
+   protected override void Death()
+   {
+      base.Death();
+
+      Sprite2D spirit = spiritScene.Instantiate() as Sprite2D;
+      GetTree().Root.GetChild(0).AddChild(spirit);
+      spirit.Position = GlobalPosition;
+   }
 }

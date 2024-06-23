@@ -9,9 +9,12 @@ public abstract partial class Living : Object
    protected CollisionShape2D shadowCollision;
    protected AnimationPlayer animationPlayer;
    private Node2D groundCheck;
+   protected GpuParticles2D dustParticles;
    #endregion
 
    [Signal] public delegate void DeadEventHandler();
+
+   private PackedScene dustParticlesScene = ResourceLoader.Load<PackedScene>("res://Scenes/dust_particles.tscn");
 
    [Export] protected bool isFlying;
    private const float GRAVITY = 0.5f;
@@ -30,6 +33,9 @@ public abstract partial class Living : Object
       shadowCollision = GetNode<CollisionShape2D>("ShadowCollisionShape2D");
       animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
       groundCheck = GetNode<Node2D>("Sprite2D/GroundCheck");
+
+      dustParticles = dustParticlesScene.Instantiate() as GpuParticles2D;
+      groundCheck.AddChild(dustParticles);
    }
 
    public override void _PhysicsProcess(double delta)
@@ -71,6 +77,10 @@ public abstract partial class Living : Object
          return;
 
       sprite.MoveLocalY(GRAVITY);
+
+      // Emit Dust particles when touching ground
+      if (IsGrounded())
+         dustParticles.Emitting = true;
    }
 
    protected bool IsGrounded()

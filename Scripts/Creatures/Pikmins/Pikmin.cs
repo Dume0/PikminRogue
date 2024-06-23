@@ -46,7 +46,6 @@ public abstract partial class Pikmin : Creature
 	NavigationAgent2D navigationAgent;
 	AudioStreamPlayer2D throwedAudioStream;
 	AudioStreamPlayer2D attackAudioStream;
-	GpuParticles2D dustParticles;
 	GpuParticles2D throwParticles;
 	Area2D actionArea;
 	#endregion
@@ -79,10 +78,11 @@ public abstract partial class Pikmin : Creature
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		throwedAudioStream = GetNode<AudioStreamPlayer2D>("ThrowedAudioStreamPlayer2D");
 		attackAudioStream = GetNode<AudioStreamPlayer2D>("AttackAudioStreamPlayer2D");
-		dustParticles = GetNode<GpuParticles2D>("DustParticles2D");
 		throwParticles = GetNode<GpuParticles2D>("Sprite2D/ThrowParticles2D");
 		actionArea = GetNode<Area2D>("ActionArea2D");
 		creatureArea.AddToGroup(Group.E_GroupToString(E_Group.PIKMIN));
+
+		spiritScene = ResourceLoader.Load<PackedScene>("res://Scenes/Pikmins/pikmin_spirit.tscn");
 
 		AddToGroup(E_Group.PIKMIN);
 
