@@ -8,8 +8,6 @@ public partial class Player : Living
 	public static Player instance;
 
 	#region Components
-	private Sprite2D sprite;
-	private AnimationPlayer animationPlayer;
 	private AudioStreamPlayer2D whistlingSound;
 	private AudioStreamPlayer2D walkingSound;
 	private RigidBody2D pikminFollowPoint; public RigidBody2D PikminFollowPoint { get { return pikminFollowPoint; } private set { } }
@@ -55,8 +53,6 @@ public partial class Player : Living
 		base._Ready();
 		if (instance == null) { instance = this; } else { GD.PrintErr("Two or more instance of this object are presents"); } // Singleton
 
-		sprite = GetNode<Sprite2D>("Sprite2D");
-		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		whistlingSound = GetNode<AudioStreamPlayer2D>("WhistlingSound");
 		walkingSound = GetNode<AudioStreamPlayer2D>("WalkingSound");
 		pikminFollowPoint = GetNode<RigidBody2D>("PikminFollowPoint");
@@ -77,6 +73,8 @@ public partial class Player : Living
 
 	public override void _PhysicsProcess(double delta)
 	{
+		base._PhysicsProcess(delta);
+
 		Move();
 	}
 
@@ -132,11 +130,6 @@ public partial class Player : Living
 	}
 	#endregion
 
-	protected void FlipSprite(Vector2 direction)
-	{
-		if (direction.X < 0) { sprite.Scale = new Vector2(-1, 1); }
-		else if (direction.X > 0) { sprite.Scale = Vector2.One; }
-	}
 	private void ReadInput()
 	{
 		// Get inputs
@@ -255,6 +248,7 @@ public partial class Player : Living
 		float distance = offsetCaptain.DistanceTo(offsetCursor);
 		float angleVertical = Trajectory.GetVerticalAngle(throwSpeed, throwGravity, distance, !throwLobAngle);
 		float angleHorizontal = Trajectory.GetAngleBetweenTwoPoints(offsetCaptain, offsetCursor);
+
 		Vector3 velocity = Trajectory.Get3DVelocity(angleVertical, angleHorizontal, throwSpeed);
 		velocity.Y *= -1;
 		grabedPikmin.Throwed(velocity, throwGravity, distance);
@@ -291,7 +285,7 @@ public partial class Player : Living
 	{
 	}
 	//////////////////////
-	private void AnimationManager()
+	protected override void AnimationManager()
 	{
 		if (isPlayingThrowAnimation)
 			return;

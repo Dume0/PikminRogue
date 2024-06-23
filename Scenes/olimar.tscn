@@ -9,8 +9,9 @@
 [ext_resource type="AudioStream" uid="uid://cjot53i405660" path="res://Assets/Sounds/Olimar/step4.wav" id="7_x3yht"]
 [ext_resource type="Texture2D" uid="uid://b3whxcgg0grxt" path="res://Assets/Sprites/Olimar/walk_particles.png" id="8_f43kg"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_f5ywc"]
-radius = 3.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p8g37"]
+radius = 1.0
+height = 6.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_xnjak"]
 streams_count = 3
@@ -432,7 +433,7 @@ anim_speed_max = 1.0
 radius = 95.021
 
 [node name="Olimar" type="CharacterBody2D"]
-z_index = 1
+y_sort_enabled = true
 collision_layer = 2
 collision_mask = 14
 motion_mode = 1
@@ -440,12 +441,11 @@ script = ExtResource("1_f3n6b")
 movementSpeed = 75.0
 healthMax = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-shape = SubResource("CircleShape2D_f5ywc")
+[node name="ShadowCollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_p8g37")
 
-[node name="Shadow" type="Sprite2D" parent="."]
-position = Vector2(0, 1)
+[node name="ShadowSprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_rdjnr")
 
 [node name="WhistlingSound" type="AudioStreamPlayer2D" parent="."]
@@ -470,6 +470,7 @@ libraries = {
 autoplay = "idle"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
 y_sort_enabled = true
 position = Vector2(0, -8)
 texture = ExtResource("4_mdpsn")
@@ -490,9 +491,13 @@ texture = ExtResource("8_f43kg")
 lifetime = 0.5
 one_shot = true
 
+[node name="GroundCheck" type="Node2D" parent="Sprite2D"]
+position = Vector2(0, 8)
+
 [node name="NearEnnemyArea2D" type="Area2D" parent="."]
 collision_layer = 2
 collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="NearEnnemyArea2D"]
+position = Vector2(0, -1)
 shape = SubResource("CircleShape2D_582kr")

@@ -54,6 +54,9 @@ public static class Trajectory
       if (!getSmallAngle && result == float.NaN)
          result = 0.5f * result;
 
+      if (result.Equals(float.NaN))
+         result = GetVerticalAngle(speed, gravity, distance - 1, getSmallAngle);
+
       return result;
    }
 

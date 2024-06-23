@@ -34,6 +34,14 @@ public partial class Seed : Object
    {
       base._Process(delta);
 
+      if (!IsAirborn())
+         Sprout();
+   }
+
+   public override void _PhysicsProcess(double delta)
+   {
+      base._PhysicsProcess(delta);
+
       Vector2 v = MoveToward(direction, speed, false);
 
       velocity = new Vector2(v.X, velocity.Y + GRAVITY);
@@ -41,8 +49,6 @@ public partial class Seed : Object
       ApplyVelocity(velocity);
       ApplyGravity();
 
-      if (!IsAirborn())
-         Sprout();
    }
 
    private void Sprout()

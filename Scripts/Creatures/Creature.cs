@@ -4,10 +4,7 @@ using System;
 public abstract partial class Creature : Living
 {
    #region Components
-   protected Sprite2D sprite;
-   protected CollisionShape2D shadowCollider;
    protected Area2D shadowArea;
-   protected Sprite2D shadowSprite;
    protected Area2D creatureArea;
    protected AudioStreamPlayer2D deathAudioStream;
    #endregion
@@ -17,20 +14,12 @@ public abstract partial class Creature : Living
    {
       base._Ready();
 
-      sprite = GetNode<Sprite2D>("Sprite2D");
-      shadowCollider = GetNode<CollisionShape2D>("ShadowCollision2D");
       shadowArea = GetNode<Area2D>("ShadowArea2D");
-      shadowSprite = GetNode<Sprite2D>("ShadowSprite2D");
       creatureArea = GetNode<Area2D>("Sprite2D/CreatureArea2D");
       creatureArea.AddToGroup(Group.E_GroupToString(E_Group.CREATURE));
       deathAudioStream = GetNodeOrNull<AudioStreamPlayer2D>("DeathAudioStreamPlayer2D");
 
       AddToGroup(E_Group.CREATURE);
-   }
-
-   public void ActivateCollision(bool activate)
-   {
-      shadowCollider.Disabled = !activate;
    }
 
    public Creature GetCreatureInCollision()

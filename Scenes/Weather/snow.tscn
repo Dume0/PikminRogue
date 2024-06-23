@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://0onruh7jva58"]
+
+[sub_resource type="Curve" id="Curve_4vqtu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.868195, 0.788914), -0.917336, -0.917336, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_u2d4c"]
+curve = SubResource("Curve_4vqtu")
+
+[sub_resource type="Curve" id="Curve_j8juq"]
+_data = [Vector2(0, 0.496232), 0.0, 0.0, 0, 0, Vector2(0.756233, 0.601184), 0.721667, 0.721667, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_by34g"]
+curve = SubResource("Curve_j8juq")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_yw10j"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(200, -50, 0)
+emission_shape = 3
+emission_box_extents = Vector3(500, 100, 1)
+gravity = Vector3(-20, 60, 0)
+linear_accel_max = 2.0
+scale_min = 2.0
+scale_max = 2.0
+alpha_curve = SubResource("CurveTexture_u2d4c")
+turbulence_enabled = true
+turbulence_noise_scale = 1.784
+turbulence_influence_over_life = SubResource("CurveTexture_by34g")
+
+[node name="Snow" type="CanvasLayer"]
+
+[node name="SnowParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(-32, 26)
+amount = 200
+process_material = SubResource("ParticleProcessMaterial_yw10j")
+lifetime = 8.0
+preprocess = 12.12
+randomness = 1.0
+visibility_rect = Rect2(-100, -100, 360, 200)

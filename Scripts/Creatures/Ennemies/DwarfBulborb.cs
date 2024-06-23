@@ -12,7 +12,6 @@ public partial class DwarfBulborb : Ennemy
 {
    #region Components
    private NavigationAgent2D navigationAgent;
-   private AnimationPlayer animationPlayer;
    private Area2D areaOfAction;
    private CircleShape2D areaOfActionShape;
    private Timer timer;
@@ -33,7 +32,6 @@ public partial class DwarfBulborb : Ennemy
       navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
       areaOfAction = GetNode<Area2D>("AreaOfAction");
       areaOfActionShape = (CircleShape2D)GetNode<CollisionShape2D>("AreaOfAction/CollisionShape2D").Shape;
-      animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
       timer = GetNode<Timer>("Timer");
 
       Idle();
@@ -63,7 +61,6 @@ public partial class DwarfBulborb : Ennemy
    private void OnNavigationAgentNavigationFinished()
    {
       Idle();
-      GD.Print("azea");
    }
 
    private void Idle()
@@ -72,12 +69,6 @@ public partial class DwarfBulborb : Ennemy
 
       timeIdling = Utils.GetRandomNumber(2, 8);
       timer.Start(timeIdling);
-   }
-
-   protected void FlipSprite(Vector2 direction)
-   {
-      if (direction.X < 0) { sprite.FlipH = true; }
-      else if (direction.X > 0) { sprite.FlipH = false; }
    }
 
    private void Move()
@@ -109,7 +100,7 @@ public partial class DwarfBulborb : Ennemy
       QueueFree();
    }
 
-   private void AnimationManager()
+   protected override void AnimationManager()
    {
       switch (state)
       {

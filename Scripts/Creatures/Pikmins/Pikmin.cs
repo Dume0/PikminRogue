@@ -49,7 +49,6 @@ public abstract partial class Pikmin : Creature
 	GpuParticles2D dustParticles;
 	GpuParticles2D throwParticles;
 	Area2D actionArea;
-	AnimationPlayer animationPlayer;
 	#endregion
 
 	#region Enums
@@ -77,7 +76,6 @@ public abstract partial class Pikmin : Creature
 	{
 		base._Ready();
 
-		animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 		navigationAgent = GetNode<NavigationAgent2D>("NavigationAgent2D");
 		throwedAudioStream = GetNode<AudioStreamPlayer2D>("ThrowedAudioStreamPlayer2D");
 		attackAudioStream = GetNode<AudioStreamPlayer2D>("AttackAudioStreamPlayer2D");
@@ -138,12 +136,6 @@ public abstract partial class Pikmin : Creature
 		}
 	}
 
-	protected void FlipSprite(Vector2 direction)
-	{
-		if (direction.X < 0) { sprite.FlipH = true; }
-		else if (direction.X > 0) { sprite.FlipH = false; }
-	}
-
 	private void Move(Vector2 target)
 	{
 		Vector2 velocity = Velocity;
@@ -181,7 +173,7 @@ public abstract partial class Pikmin : Creature
 		throwedDistance = distance;
 
 		// Deactivate collision
-		shadowCollider.Visible = false;
+		ActivateCollision(false);
 	}
 
 	private void ThrowUpdate()
@@ -232,7 +224,7 @@ public abstract partial class Pikmin : Creature
 		throwParticles.Emitting = false;
 
 		// Reactivate collision
-		shadowCollider.Visible = true;
+		ActivateCollision(true);
 	}
 
 	public override void FallToTheGround()
@@ -318,12 +310,17 @@ public abstract partial class Pikmin : Creature
 		state = E_PikminState.GRABED;
 	}
 
+	public void EndFight()
+	{
+		state = E_PikminState.IDLE;
+	}
+
 	public void PlayPluckedAnimation()
 	{
 		state = E_PikminState.PLUCKED;
 	}
 
-	private void AnimationManager()
+	protected override void AnimationManager()
 	{
 		switch (state)
 		{

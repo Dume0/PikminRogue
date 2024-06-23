@@ -21,7 +21,9 @@ public abstract partial class Ennemy : Creature
       {
          if (node.IsInGroup(Group.E_GroupToString(E_Group.PIKMIN)))
          {
-            Utils.SetParent(node, GetTree().Root.GetChild(0));
+            Pikmin pikmin = (Pikmin)node;
+            Utils.SetParent(pikmin, GetTree().Root.GetChild(0));
+            pikmin.EndFight();
          }
       }
 
